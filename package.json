@@ -1,0 +1,43 @@
+{
+	"name": "ts-vite-boilerplate",
+	"private": false,
+	"version": "1.0.0",
+	"type": "module",
+	"author": "Igor Korshunov <igor.korshunov@logrusit.com>",
+	"engines": {
+		"node": "20.15.0"
+	},
+	"scripts": {
+		"dev": "vite",
+		"build": "tsc && vite build",
+		"preview": "vite preview"
+	},
+	"browserslist": {
+		"production": [
+			"> 0.1%",
+			"not dead"
+		],
+		"modern": [
+			"last 1 chrome version",
+			"last 1 edge version",
+			"last 1 firefox version",
+			"last 1 safari version"
+		]
+	},
+	"devDependencies": {
+		"@types/grecaptcha": "^3.0.9",
+		"@types/node": "^22.7.5",
+		"@types/youtube": "^0.1.0",
+		"autoprefixer": "^10.4.20",
+		"embla-carousel": "^8.3.0",
+		"fast-glob": "^3.3.2",
+		"nanoid": "^5.0.7",
+		"postcss-inline-svg": "^6.0.0",
+		"postcss-rtlcss": "^5.5.0",
+		"postcss-sort-media-queries": "^5.2.0",
+		"sass": "^1.79.4",
+		"typescript": "^5.5.3",
+		"vite": "^5.4.8",
+		"vite-plugin-static-copy": "^2.0.0"
+	}
+}

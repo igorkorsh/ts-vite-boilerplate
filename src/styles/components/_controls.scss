@@ -1,0 +1,172 @@
+@use "sass:map";
+@use "../base/colors" as *;
+
+$control: (
+	"light": (
+		borderColor: $gray-600,
+		borderHoverColor: $gray-500
+	),
+	"dark": (
+		borderColor: $white,
+		borderHoverColor: $white-60
+	)
+);
+
+$control-theme: "dark" !default;
+$control-color: "green" !default; // "green", "blue", "invert"
+$control-styles: map.get($control, $control-theme);
+
+input[type="checkbox"],
+input[type="radio"] {
+	position: relative;
+	background-color: transparent;
+	cursor: pointer;
+	transition: all 0.2s ease;
+	appearance: none;
+}
+
+input[type="checkbox"] {
+	width: 20px;
+	height: 20px;
+	border: 2px solid map.get($control-styles, borderColor);
+	border-radius: 4px;
+
+	&:hover,
+	&:focus {
+		border-color: map.get($control-styles, borderHoverColor);
+	}
+
+	&::before {
+		display: block;
+		width: 20px;
+		height: 20px;
+		margin: -2px;
+		transform: scale(0);
+		transition: transform 0.2s ease;
+		content: svg-load("../sprite/check.svg", fill=$white);
+	}
+
+	&:checked {
+		@if $control-color == "green" {
+			background-color: $green-600;
+			border-color: $green-600;
+		} @else if $control-color == "blue" {
+			background-color: $blue-600;
+			border-color: $blue-600;
+		} @else if $control-color == "invert" {
+			@if $control-theme == "light" {
+				background-color: $black;
+				border-color: $black;
+			} @else if $control-theme == "dark" {
+				background-color: $white;
+				border-color: $white;
+				content: svg-load("../sprite/check.svg", fill=$black);
+			}
+		}
+
+		&:hover {
+			@if $control-color == "green" {
+				background-color: $green-300;
+				border-color: $green-300;
+			} @else if $control-color == "blue" {
+				background-color: $interface-blue-hover;
+				border-color: $interface-blue-hover;
+			} @else if $control-color == "invert" {
+				@if $control-theme == "light" {
+					background-color: $gray-400;
+					border-color: $gray-400;
+				} @else if $control-theme == "dark" {
+					background-color: $white;
+					border-color: $white-60;
+				}
+			}
+		}
+
+		&::before {
+			transform: scale(1);
+		}
+	}
+}
+
+input[type="radio"] {
+	width: 22px;
+	height: 22px;
+	border: 2px solid map.get($control-styles, borderColor);
+	border-radius: 50%;
+	transition: all 0.2s ease;
+
+	&::before {
+		position: absolute;
+		top: 4px;
+		left: 4px;
+		width: 10px;
+		height: 10px;
+		border-radius: 50%;
+		transform: scale(0);
+		transition: all 0.2s ease;
+		content: "";
+
+		@if $control-color == "green" {
+			background-color: $green-600;
+		} @else if $control-color == "blue" {
+			background-color: $blue-600;
+		} @else if $control-color == "invert" {
+			@if $control-theme == "light" {
+				background-color: $black;
+			} @else if $control-theme == "dark" {
+				background-color: $white;
+			}
+		}
+	}
+
+	&:hover,
+	&:focus {
+		border-color: map.get($control-styles, borderHoverColor);
+	}
+
+	&:checked {
+		@if $control-color == "green" {
+			border-color: $green-600;
+		} @else if $control-color == "blue" {
+			border-color: $blue-600;
+		} @else if $control-color == "invert" {
+			@if $control-theme == "light" {
+				border-color: $black;
+			} @else if $control-theme == "dark" {
+				border-color: $white;
+			}
+		}
+
+		&:hover {
+			@if $control-color == "green" {
+				border-color: $green-300;
+			} @else if $control-color == "blue" {
+				border-color: $interface-blue-hover;
+			} @else if $control-color == "invert" {
+				@if $control-theme == "light" {
+					border-color: $gray-400;
+				} @else if $control-theme == "dark" {
+					border-color: $white;
+				}
+			}
+		}
+
+		&:hover::before {
+			@if $control-color == "green" {
+				background-color: $green-300;
+			} @else if $control-color == "blue" {
+				background-color: $interface-blue-hover;
+			} @else if $control-color == "invert" {
+				@if $control-theme == "light" {
+					background-color: $gray-400;
+				} @else if $control-theme == "dark" {
+					background-color: $white;
+				}
+			}
+		}
+
+		&::before {
+			transform: scale(1);
+		}
+	}
+}

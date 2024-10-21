@@ -1,0 +1,209 @@
+@use "sass:map";
+@use "../base/colors" as *;
+@use "../base/mixins" as *;
+
+$bitrix: (
+	"white": (
+		bgColor: $white,
+		inputColor: $black,
+		placeholderColor: $gray-500,
+		borderColor: $gray-700,
+		borderHoverColor: $gray-600,
+		borderFocusColor: $green-300,
+		errorColor: $red-600,
+		textColor: $gray-500,
+		linkColor: $green-600,
+		linkHoverColor: $green-300
+	),
+	"ghost-black": (
+		bgColor: transparent,
+		inputColor: $black,
+		placeholderColor: $gray-500,
+		borderColor: $black,
+		borderHoverColor: $gray-500,
+		borderFocusColor: $black,
+		errorColor: $red-600,
+		textColor: $gray-400,
+		linkColor: $black,
+		linkHoverColor: $gray-300
+	),
+	"ghost-white": (
+		bgColor: transparent,
+		inputColor: $white,
+		placeholderColor: $white-60,
+		borderColor: $white,
+		borderHoverColor: $white-60,
+		borderFocusColor: $green-300,
+		errorColor: $red-600,
+		textColor: $white-60,
+		linkColor: $green-300,
+		linkHoverColor: $green-200
+	)
+);
+
+$bitrix-theme: "ghost-white" !default;
+$bitrix-styles: map.get($bitrix, $bitrix-theme);
+
+.b24-form * {
+	font-family: "Kaspersky Sans Display", sans-serif !important;
+}
+
+// Устанавливает максимальную ширину обертки
+.b24-form-wrapper {
+	max-width: 100% !important;
+	background-color: transparent !important;
+
+	// Убирает тень у обертки формы
+	&.b24-form-shadow {
+		box-shadow: none !important;
+	}
+}
+
+// Убирает отступ между заголовком и формой
+.b24-form-header-padding {
+	padding: 0 !important;
+}
+
+.b24-form-content,
+.b24-form-padding-side {
+	padding: 0 !important;
+}
+
+.b24-form-field {
+	margin-bottom: 16px !important;
+}
+
+.b24-form-control-container {
+	margin-bottom: 0 !important;
+
+	&:has([type="checkbox"]) {
+		display: flex;
+		column-gap: 12px;
+
+		// Скрывает сообщение об обязательном поле у чекбокса
+		& .b24-form-control-alert-message {
+			display: none !important;
+		}
+	}
+}
+
+.b24-form-control-label {
+	color: map.get($bitrix-styles, placeholderColor) !important;
+}
+
+.b24-form-control {
+	color: map.get($bitrix-styles, inputColor) !important;
+	background-color: map.get($bitrix-styles, bgColor) !important;
+	border: 1px solid !important;
+	border-color: map.get($bitrix-styles, borderColor) !important;
+	border-radius: 8px !important;
+	outline-offset: -2px;
+
+	&:hover {
+		border-color: map.get($bitrix-styles, borderHoverColor) !important;
+	}
+
+	&:focus {
+		border-color: map.get($bitrix-styles, borderFocusColor) !important;
+		outline: 1px solid map.get($bitrix-styles, borderFocusColor);
+	}
+}
+
+// Не уведичивает отступ снизу у обязательного чекбокса в форме
+.b24-form-control-agreement.b24-form-control-alert {
+	margin-bottom: 16px !important;
+}
+
+.b24-form-control-desc,
+.b24-form-field-agreement,
+.b24-form-field-agreement-link {
+	margin-top: 3px;
+	color: map.get($bitrix-styles, textColor) !important;
+	font-weight: 400;
+	font-size: 14px !important;
+	line-height: 16px !important;
+	opacity: 1 !important;
+}
+
+.b24-form-field-agreement-link {
+	color: map.get($bitrix-styles, linkColor) !important;
+	transition: 0.2s ease;
+	transition-property: color;
+
+	&:hover {
+		color: map.get($bitrix-styles, linkHoverColor) !important;
+	}
+}
+
+.b24-form-control-required {
+	display: none !important;
+}
+
+.b24-form-btn-container {
+	margin: 0 !important;
+}
+
+.b24-form-btn-block {
+	padding: 0 !important;
+}
+
+.b24-form-btn {
+	display: inline-flex !important;
+	align-items: center;
+	justify-content: center;
+	width: auto !important;
+	text-align: center;
+	text-decoration: none;
+	background-color: transparent;
+	border: none;
+	box-shadow: none !important;
+
+	@include for-phone-only {
+		width: 100% !important;
+	}
+}
+
+.b24-form-btn {
+	min-height: 48px !important;
+	padding: 14px 24px !important;
+	font-weight: 600 !important;
+	font-size: 16px !important;
+	line-height: 20px !important;
+	border-radius: 8px !important;
+}
+
+.b24-form-btn {
+	color: $white !important;
+	background-color: $green-600 !important;
+	transition: 0.2s ease;
+	transition-property: background-color;
+
+	&:hover,
+	&:focus {
+		background-color: $green-300 !important;
+	}
+
+	&:active {
+		background-color: $interface-green-hover !important;
+	}
+}
+
+.b24-form-recaptcha {
+	justify-content: flex-start !important;
+	margin: 16px 0 0 !important;
+}
+
+.b24-form-control-alert-message {
+	left: 0 !important;
+	margin-top: 2px !important;
+	padding: 0 !important;
+	color: map.get($bitrix-styles, errorColor) !important;
+	font-size: 12px !important;
+	line-height: 14px !important;
+	background-color: transparent !important;
+
+	&::before,
+	&::after {
+		content: none !important;
+	}
+}

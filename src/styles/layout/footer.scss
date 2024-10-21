@@ -1,0 +1,129 @@
+@use "sass:map";
+
+$footer: (
+	"light": (
+		bgColor: $white,
+		logoColor: $black,
+		iconColor: $gray-400,
+		iconHoverColor: $gray-500,
+		textColor: $gray-500,
+		linkColor: $green-600,
+		linkHoverColor: $green-300
+	),
+	"dark": (
+		bgColor: $gray-300,
+		logoColor: $white,
+		iconColor: $white,
+		iconHoverColor: $white-80,
+		textColor: $white-60,
+		linkColor: $green-300,
+		linkHoverColor: $green-200
+	)
+);
+
+$footer-theme: "dark";
+$footer-styles: map.get($footer, $footer-theme);
+
+.footer {
+	background-color: map.get($footer-styles, bgColor);
+}
+
+.footer__container {
+	display: grid;
+	grid-template-rows: 54px 1fr;
+	grid-template-columns: auto 1fr;
+	gap: 4px 20.18px;
+	padding-block: 6px 16px;
+
+	@include for-tablet-up {
+		padding-block: 8px 24px;
+		row-gap: 8px;
+	}
+
+	@include for-desktop-up {
+		grid-template-rows: auto;
+		grid-template-columns: auto 1fr auto;
+		padding-block: 9px 7px;
+		column-gap: 0;
+	}
+}
+
+.footer__logo {
+	display: block;
+	width: 169.84px;
+	height: 54px;
+	margin-inline: -19px;
+	color: map.get($footer-styles, logoColor);
+
+	@include for-desktop-up {
+		width: 201.29px;
+		height: 64px;
+		margin-inline: -23px 0;
+	}
+}
+
+.footer__social {
+	display: flex;
+	flex-direction: row;
+	align-items: center;
+	justify-self: flex-end;
+	column-gap: 13px;
+
+	@include for-desktop-up {
+		order: 2;
+		column-gap: 12px;
+	}
+}
+
+.footer__social-icon {
+	display: block;
+	width: 24px;
+	height: 24px;
+	color: map.get($footer-styles, iconColor);
+	transition: color 0.2s ease;
+
+	&:hover {
+		color: map.get($footer-styles, iconHoverColor);
+	}
+}
+
+.footer__text {
+	display: flex;
+	flex-direction: row;
+	flex-wrap: wrap;
+	color: map.get($footer-styles, textColor);
+	font-weight: 400;
+	font-size: 12px;
+	line-height: 14px;
+	column-gap: 8px;
+
+	@include for-phone-and-tablet-only {
+		grid-column: span 2;
+	}
+
+	@include for-desktop-up {
+		align-self: flex-end;
+		margin-bottom: 21px;
+	}
+
+	li:not(:first-of-type) {
+		position: relative;
+
+		&::before {
+			padding-inline-end: 8px;
+			content: "•";
+		}
+	}
+}
+
+.footer__link {
+	position: relative;
+	color: map.get($footer-styles, linkColor);
+	font-weight: 600;
+	text-decoration: underline;
+	transition: color 0.2s ease;
+
+	&:hover {
+		color: map.get($footer-styles, linkHoverColor);
+	}
+}

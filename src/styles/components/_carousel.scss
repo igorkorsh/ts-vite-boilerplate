@@ -1,0 +1,101 @@
+@use "../base/colors" as *;
+@use "../base/mixins" as *;
+@use "button";
+
+.carousel {
+	position: relative;
+	margin-bottom: 50px;
+}
+
+.carousel__viewport {
+	overflow: hidden;
+
+	@include for-tablet-up {
+		max-width: calc(100% - 128px);
+		margin-inline: auto;
+	}
+}
+
+.carousel__wrapper {
+	display: grid;
+	grid-auto-columns: 100%;
+	grid-auto-flow: column;
+
+	@include for-tablet-up {
+		grid-auto-columns: calc(100% / 2 + 8px);
+	}
+
+	@include for-desktop-up {
+		grid-auto-columns: calc(100% / 3 + 8px);
+	}
+}
+
+.carousel__slide {
+	@include for-tablet-up {
+		margin-inline-end: 24px;
+	}
+}
+
+.carousel__button--prev,
+.carousel__button--next {
+	@extend .button;
+	position: absolute;
+	top: 0;
+	height: 100%;
+	overflow: visible;
+	color: $green-600;
+	transition: color 0.2s ease;
+
+	@include for-phone-only {
+		display: none;
+	}
+
+	&:hover {
+		color: $green-300;
+	}
+
+	&:disabled {
+		color: $gray-700;
+	}
+}
+
+.carousel__button--prev {
+	left: 0px;
+	transform: rotate(180deg);
+
+	[dir="rtl"] & {
+		transform: none;
+	}
+}
+
+.carousel__button--next {
+	right: 0;
+	transform: rotate(180deg);
+
+	[dir="ltr"] & {
+		transform: none;
+	}
+}
+
+.carousel__pagination {
+	position: absolute;
+	bottom: -50px;
+	display: flex;
+	justify-content: center;
+	width: 100%;
+	column-gap: 12px;
+}
+
+.carousel__pagination-bullet {
+	@extend .button;
+	width: 10px;
+	height: 10px;
+	background-color: $white-32;
+	border-radius: 10px;
+	transition: all 0.2s ease;
+
+	&.active {
+		width: 70px;
+		background-color: $green-300;
+	}
+}

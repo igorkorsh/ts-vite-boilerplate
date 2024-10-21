@@ -1,0 +1,224 @@
+@use "sass:map";
+
+$nav: (
+	"light": (
+		bgColor: $white,
+		shadowColor: $shadow-100,
+		togglerColor: $gray-600,
+		logoColor: $black,
+		dividerColor: $gray-800,
+		linkColor: $black
+	),
+	"dark": (
+		bgColor: $gray-300,
+		shadowColor: $shadow-dark,
+		togglerColor: $white,
+		logoColor: $white,
+		dividerColor: $white-10,
+		linkColor: $white
+	)
+);
+
+$nav-theme: "dark";
+$nav-styles: map.get($nav, $nav-theme);
+
+.nav {
+	position: sticky;
+	top: 0;
+	z-index: 9;
+	height: 54px;
+	background-color: map.get($nav-styles, bgColor);
+	box-shadow: map.get($nav-styles, shadowColor);
+
+	@include for-desktop-up {
+		height: 64px;
+	}
+}
+
+.nav__container {
+	display: grid;
+	grid-template-columns: 64px 1fr;
+
+	@include for-phone-and-tablet-only {
+		padding-inline: 0;
+	}
+
+	@include for-desktop-up {
+		grid-template-columns: min-content 1fr;
+	}
+}
+
+.nav__toggler {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 64px;
+
+	@include for-desktop-up {
+		display: none;
+	}
+
+	&::before {
+		width: 24px;
+		height: 24px;
+		background-image: svg-load("../sprite/burger.svg" fill=map.get($nav-styles, togglerColor));
+		content: "";
+	}
+
+	&.open {
+		&::before {
+			background-image: svg-load("../sprite/close.svg" fill=map.get($nav-styles, togglerColor));
+		}
+	}
+}
+
+.nav__logo {
+	justify-self: center;
+	width: 169.84px;
+	height: 54px;
+	color: map.get($nav-styles, logoColor);
+
+	@include for-desktop-up {
+		justify-self: flex-start;
+		width: 201.29px;
+		height: 64px;
+		margin-inline: -23px 0;
+	}
+}
+
+.nav__menu {
+	display: none;
+
+	@include for-phone-and-tablet-only {
+		&.open {
+			display: block;
+			grid-column: 1 / -1;
+			height: calc(100vh - 54px);
+			overflow: auto;
+		}
+	}
+
+	@include for-desktop-up {
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+	}
+}
+
+.nav__menu > li {
+	@include for-phone-and-tablet-only {
+		position: relative;
+		background-color: map.get($nav-styles, bgColor);
+
+		&:not(:last-of-type)::after {
+			position: absolute;
+			right: 16px;
+			bottom: 0;
+			left: 16px;
+			height: 1px;
+			background-color: map.get($nav-styles, dividerColor);
+			content: "";
+		}
+
+		&:has(.nav__menu-button) {
+			padding: 16px;
+		}
+	}
+}
+
+.nav__menu-link {
+	@extend .button;
+	position: relative;
+	color: map.get($nav-styles, linkColor);
+
+	@include for-phone-and-tablet-only {
+		justify-content: flex-start;
+		padding: 21.5px 16px;
+		font-weight: 400;
+		font-size: 18px;
+		line-height: 21px;
+
+		&::before {
+			position: absolute;
+			top: 0;
+			bottom: 0;
+			left: 0;
+			width: 3px;
+			background-color: $green-300;
+			border-radius: 3px;
+			opacity: 0;
+			transition: opacity 0.2s ease;
+			content: "";
+		}
+
+		&:hover,
+		&.active {
+			font-weight: 600;
+
+			&::before {
+				opacity: 1;
+			}
+		}
+	}
+
+	@include for-desktop-up {
+		height: 64px;
+		padding-inline: 16px;
+		font-weight: 500;
+		font-size: 14px;
+		line-height: 16px;
+
+		&::before {
+			position: absolute;
+			right: 16px;
+			bottom: 0;
+			left: 16px;
+			height: 3px;
+			background-color: $green-300;
+			border-radius: 3px;
+			opacity: 0;
+			transition: opacity 0.2s ease;
+			content: "";
+		}
+
+		&:hover,
+		&.active {
+			&::before {
+				opacity: 1;
+			}
+		}
+	}
+}
+
+.nav__menu-accent {
+	@extend .button;
+	justify-content: flex-start;
+	height: 64px;
+	padding-inline: 16px;
+	color: $white;
+	font-weight: 600;
+	font-size: 18px;
+	line-height: 21px;
+	background-color: $green-600;
+	transition: background-color 0.2s ease;
+
+	@include for-desktop-up {
+		font-weight: 500;
+		font-size: 14px;
+		line-height: 16px;
+	}
+
+	&:hover {
+		background-color: $green-300;
+	}
+}
+
+.nav__menu-button {
+	@extend %size-64;
+	@extend %primary-green;
+
+	@include for-desktop-up {
+		height: 48px;
+		@include button-size(14px, 24px, 16px, 20px, 8px);
+	}
+}

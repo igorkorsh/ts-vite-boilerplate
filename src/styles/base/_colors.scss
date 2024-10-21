@@ -1,0 +1,115 @@
+$green-600: #00a88e;
+$green-300: #29ccb1;
+$green-200: #3de8ca;
+$green-100: #9dffef;
+$green-50: #effffc;
+$black: #1d1d1b;
+$white: #ffffff;
+
+$gray-100: #0f151c;
+$gray-200: #131a23;
+$gray-300: #21272f;
+$gray-400: #383f48;
+$gray-500: rgba(42, 53, 65, 0.7);
+$gray-600: rgba(34, 52, 73, 0.4);
+$gray-700: rgba(29, 54, 83, 0.17);
+$gray-800: rgba(41, 77, 117, 0.09);
+$gray-900: #f4f7fa;
+
+$white-80: rgba($white, 0.8);
+$white-60: rgba($white, 0.6);
+$white-40: rgba($white, 0.4);
+$white-32: rgba($white, 0.32);
+$white-20: rgba($white, 0.2);
+$white-10: rgba($white, 0.1);
+
+// Secondary colors
+// https://www.figma.com/proto/y22ZHiEWQQF3fLAnG6hpHz/Brand$-Visual-Identity$-2024?page-id=1%3A6&node-id=7164-27362&viewport=182%2C354%2C0.13&scaling=contain
+$cyan-600: #33bbff;
+$cyan-300: #7bd3ff;
+$cyan-200: #9ddeff;
+$cyan-100: #bbe9ff;
+$cyan-50: #effaff;
+
+$blue-600: #3355ff;
+$blue-300: #7392ff;
+$blue-200: #93adff;
+$blue-100: #b4c9ff;
+$blue-50: #e5f1ff;
+
+$violet-600: #7633ff;
+$violet-300: #a87cff;
+$violet-200: #be9dff;
+$violet-100: #d4beff;
+$violet-50: #fe4fff;
+
+$purple-600: #dd33ff;
+$purple-300: #e97cff;
+$purple-200: #ef9dff;
+$purple-100: #f4beff;
+$purple-50: #fcefff;
+
+$pink-600: #ff33bb;
+$pink-300: #ff7cd4;
+$pink-200: #ff9dde;
+$pink-100: #ffbee9;
+$pink-50: #ffeffa;
+
+$red-600: #ff3355;
+$red-300: #ff7c92;
+$red-200: #ff9dad;
+$red-100: #ffbec9;
+$red-50: #ffeff1;
+
+$orange-600: #ff7033;
+$orange-300: #ffa87c;
+$orange-200: #ffbe9d;
+$orange-100: #ffd4be;
+$orange-50: #fff4ef;
+
+$yellow-600: #ffd633;
+$yellow-300: #fee87c;
+$yellow-200: #ffef9d;
+$yellow-100: #fff4be;
+$yellow-50: #fff7e5;
+
+$lime-600: #bbff33;
+$lime-300: #d4ff7c;
+$lime-200: #deff9d;
+$lime-100: #e9ffbe;
+$lime-50: #faffef;
+
+$neon-600: #55ff33;
+$neon-300: #92ff7c;
+$neon-200: #adff9d;
+$neon-100: #c9ffbe;
+$neon-50: #f1ffef;
+
+$mint-600: #4dff88;
+$mint-300: #8dffb3;
+$mint-200: #aaffc6;
+$mint-100: #c6ffd9;
+$mint-50: #f1fff6;
+
+$interface-yellow: #f3b846;
+$interface-green-hover: #138170;
+$interface-blue-hover: #4b69ff;
+$interface-blue-pressed: #304ee4;
+$interface-red-hover: #ff5470;
+$interface-red-pressed: #e4304e;
+
+$shadow-100: 0px 2px 4px -2px rgba(#18274b, 0.12), 0px 4px 4px -2px rgba(#18274b, 0.08);
+$shadow-300: 0px 6px 8px -6px rgba(#18274b, 0.12), 0px 8px 16px -6px rgba(#18274b, 0.08);
+$shadow-500: 0px 6px 14px -6px rgba(#18274b, 0.12), 0px 10px 32px -4px rgba(#18274b, 0.1);
+$shadow-700: 0px 8px 22px -6px rgba(#18274b, 0.12), 0px 14px 64px -4px rgba(#18274b, 0.12);
+$shadow-card: 0px 4px 40px 0px rgba(#556e6e, 0.16);
+$shadow-card-hover: 0px 8px 40px 0px rgba(#556e6e, 0.24);
+$shadow-green: 0px 4px 24px 0px rgba(#23d1ae, 0.24);
+$shadow-green-hover: 0px 8px 32px 0px rgba(#23d1ae, 0.4);
+$shadow-dark: 0px 4px 32px 0px rgba(#000000, 0.32);
+$shadow-dark-hover: 0px 8px 40px 0px rvar(#000000, 0.48);
+
+$gradient-green: linear-gradient(26deg, $green-600 22.8%, $green-200 84.13%);
+$gradient-green-dark: linear-gradient(41deg, $black 0%, #146658 44.27%, $green-300 100%);
+$gradient-green-neon: linear-gradient(217deg, $mint-600 15.95%, $green-200 83.66%);
+$gradient-green-3d: linear-gradient(45deg, $green-200 38.74%, #33ff77 100%);

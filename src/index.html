@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<link rel="stylesheet" href="styles/style.scss" />
+		<title>Vite Boilerplate</title>
+	</head>
+	<body>
+		<!-- svg-sprite -->
+
+		<nav class="nav">
+			<div class="container nav__container">
+				<button type="button" class="button nav__toggler"></button>
+				<a href="https://www.kaspersky.com" target="_blank" class="nav__logo">
+					<svg aria-hidden="true">
+						<use href="#logo"></use>
+					</svg>
+				</a>
+				<ul role="menu" class="nav__menu">
+					<li><a href="#" role="menuitem" class="nav__menu-link" data-om-cta="Menu item #1">Menu item #1</a></li>
+					<li><a href="#" role="menuitem" class="nav__menu-link" data-om-cta="Menu item #2">Menu item #2</a></li>
+					<li><a href="#" role="menuitem" class="nav__menu-link" data-om-cta="Menu item #3">Menu item #3</a></li>
+					<li><a href="#" role="menuitem" class="nav__menu-accent" data-om-cta="Accent item">Accent item</a></li>
+					<li><a href="#" target="_blank" class="button nav__menu-button" data-om-cta="Button name">Button name</a></li>
+				</ul>
+				<div class="lang">
+					<button type="button" class="button lang__button"></button>
+					<ul class="lang__menu"></ul>
+				</div>
+			</div>
+		</nav>
+
+		<main>
+			<section>
+				<div class="container">
+					<!-- Modal -->
+					<button type="button" class="button modal__button--primary" data-modal="#modalText">
+						Open text modal window
+					</button>
+					<button
+						type="button"
+						class="button modal__button--primary"
+						data-modal="#modalVideo"
+						data-video="https://www.youtube.com/watch?v=js6zXgxk0cQ"
+					>
+						Open video modal window
+					</button>
+
+					<!-- Carousel -->
+					<div class="carousel">
+						<div class="carousel__viewport">
+							<div class="carousel__wrapper">
+								<div class="carousel__slide">Slide 1</div>
+								<div class="carousel__slide">Slide 2</div>
+								<div class="carousel__slide">Slide 3</div>
+								<div class="carousel__slide">Slide 4</div>
+								<div class="carousel__slide">Slide 5</div>
+							</div>
+							<button class="carousel__button--prev" aria-label="Prev">
+								<svg width="32" height="32" aria-hidden="true">
+									<use href="#carousel-arrow"></use>
+								</svg>
+							</button>
+							<button class="carousel__button--next" aria-label="Next">
+								<svg width="32" height="32" aria-hidden="true">
+									<use href="#carousel-arrow"></use>
+								</svg>
+							</button>
+						</div>
+						<div class="carousel__pagination"></div>
+					</div>
+
+					<!-- Accordion -->
+					<div class="accordion">
+						<div class="accordion__item">
+							<button type="button" class="accordion__header">
+								Accordion Item #1 <span class="accordion__icon"></span>
+							</button>
+							<div class="accordion__panel">
+								<div class="accordion__content">
+									<p class="accordion__text">
+										Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste sequi veritatis voluptatem est dolor,
+										veniam cupiditate impedit, culpa consequatur, nihil rem dolore nostrum totam! Repellendus
+										consequuntur tenetur maxime aliquam at!
+									</p>
+								</div>
+							</div>
+						</div>
+						<div class="accordion__item">
+							<button type="button" class="accordion__header">
+								Accordion Item #2 <span class="accordion__icon"></span>
+							</button>
+							<div class="accordion__panel">
+								<div class="accordion__content">
+									<p class="accordion__text">
+										Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste sequi veritatis voluptatem est dolor,
+										veniam cupiditate impedit, culpa consequatur, nihil rem dolore nostrum totam! Repellendus
+										consequuntur tenetur maxime aliquam at!
+									</p>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<!-- Form (Bitrix) -->
+					<script data-b24-form="inline/195/b9aqto" data-skip-moving="true">
+						;(function (w, d, u) {
+							var s = d.createElement("script")
+							s.async = true
+							s.src = u + "?" + ((Date.now() / 180000) | 0)
+							var h = d.getElementsByTagName("script")[0]
+							h.parentNode.insertBefore(s, h)
+						})(window, document, "https://cdn-ru.bitrix24.ru/b27377444/crm/form/loader_195.js")
+					</script>
+					<script src="https://storage.yandexcloud.net/kasperskyform/validator.js"></script>
+					<script>
+						initBxFormValidator({
+							formId: "inline/195/b9aqto",
+							emailFieldName: "",
+							naturalFieldNames: ["CONTACT_UF_CRM_NODES"],
+							lengthRestrictedFieldNames: {
+								CONTACT_EMAIL: 250,
+								CONTACT_POST: 128,
+								CONTACT_NAME: 50,
+								CONTACT_UF_CRM_COMPANY: 255,
+								CONTACT_UF_CRM_COMPANY_TAX_ID: 50,
+								CONTACT_UF_CRM_PRODUCT_INTEREST: 255,
+								CONTACT_UF_CRM_FORM_QUESTION_2: 255,
+								CONTACT_UF_CRM_FORM_QUESTION_3: 255,
+								CONTACT_UF_CRM_FORM_QUESTION_5: 255
+							}
+						})
+					</script>
+				</div>
+			</section>
+		</main>
+
+		<footer class="footer">
+			<div class="container footer__container">
+				<a href="https://www.kaspersky.com" target="_blank" class="footer__logo">
+					<svg aria-hidden="true">
+						<use href="#logo"></use>
+					</svg>
+				</a>
+				<ul class="footer__social">
+					<li>
+						<a
+							href="https://www.facebook.com/Kaspersky"
+							target="_blank"
+							rel="noopener noreferrer"
+							class="footer__social-icon"
+							aria-label="Facebook"
+						>
+							<svg width="24" height="24" aria-hidden="true">
+								<use href="#facebook"></use>
+							</svg>
+						</a>
+					</li>
+					<li>
+						<a
+							href="https://instagram.com/kasperskylab"
+							target="_blank"
+							rel="noopener noreferrer"
+							class="footer__social-icon"
+							aria-label="Instagram"
+						>
+							<svg width="24" height="24" aria-hidden="true">
+								<use href="#instagram"></use>
+							</svg>
+						</a>
+					</li>
+					<li>
+						<a
+							href="https://linkedin.com/company/kaspersky/"
+							target="_blank"
+							rel="noopener noreferrer"
+							class="footer__social-icon"
+							aria-label="Linkedin"
+						>
+							<svg width="24" height="24" aria-hidden="true">
+								<use href="#linkedin"></use>
+							</svg>
+						</a>
+					</li>
+					<li>
+						<a
+							href="https://twitter.com/kaspersky"
+							target="_blank"
+							rel="noopener noreferrer"
+							class="footer__social-icon"
+							aria-label="X (Twitter)"
+						>
+							<svg width="24" height="24" aria-hidden="true">
+								<use href="#twitter"></use>
+							</svg>
+						</a>
+					</li>
+					<li>
+						<a
+							href="https://youtube.com/Kaspersky"
+							target="_blank"
+							rel="noopener noreferrer"
+							class="footer__social-icon"
+							aria-label="YouTube"
+						>
+							<svg width="24" height="24" aria-hidden="true">
+								<use href="#youtube"></use>
+							</svg>
+						</a>
+					</li>
+				</ul>
+				<ul class="footer__text">
+					<li>&copy; <span id="year"></span> AO Kaspersky. All Rights Reserved.</li>
+					<li>
+						<a href="https://www.kaspersky.com/web-privacy-policy" target="_blank" class="footer__link">
+							Privacy Policy
+						</a>
+					</li>
+					<li><a href="https://www.kaspersky.com/about/contact" target="_blank" class="footer__link">Contacts</a></li>
+				</ul>
+			</div>
+		</footer>
+
+		<!-- Modal -->
+		<div class="modal" id="modalText" aria-hidden="true">
+			<div class="modal__dialog" role="dialog">
+				<div class="modal__content">
+					<div class="modal__header">
+						<h3 class="modal__title">Headline</h3>
+						<button type="button" class="modal__close">
+							<svg width="24" height="24" aria-hidden="true">
+								<use href="#close"></use>
+							</svg>
+						</button>
+					</div>
+					<div class="modal__body">
+						<p class="modal__text">
+							Lorem ipsum dolor sit amet consectetur. Amet cursus magna semper scelerisque sem diam aliquam sit turpis.
+							Dignissim turpis ullamcorper non adipiscing libero sed metus semper.
+						</p>
+					</div>
+					<div class="modal__footer">
+						<div class="modal__button-group">
+							<a href="#" target="_blank" class="modal__button--primary" data-om-cta="Primary button">
+								Primary button
+							</a>
+							<a href="#" target="_blank" class="modal__button--secondary" data-om-cta="Secondary button">
+								Secondary button
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+		<div class="modal" id="modalVideo" aria-hidden="true">
+			<div class="modal__dialog" role="dialog">
+				<div class="modal__content">
+					<div id="player"></div>
+					<button type="button" class="button modal__close">
+						<svg width="24" height="24" aria-hidden="true">
+							<use href="#close"></use>
+						</svg>
+					</button>
+				</div>
+			</div>
+		</div>
+
+		<script type="module" src="scripts/index.ts"></script>
+	</body>
+</html>
