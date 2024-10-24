@@ -1,7 +1,7 @@
 import path from "path"
 import glob from "fast-glob"
 import { fileURLToPath } from "url"
-import { defineConfig } from "vite"
+import { defineConfig, normalizePath } from "vite"
 import { SpritePlugin } from "./plugins/vite-plugin-svg-sprite"
 import { viteStaticCopy } from "vite-plugin-static-copy"
 import inliveSvg from "postcss-inline-svg"
@@ -20,8 +20,8 @@ export default defineConfig({
 			viteStaticCopy({
 				targets: [
 					{
-						src: path.resolve(__dirname, "src/images/static/*"),
-						dest: path.resolve(__dirname, "build/images")
+						src: normalizePath(path.resolve(__dirname, "src/images/static/*")),
+						dest: normalizePath(path.resolve(__dirname, "build/images"))
 					}
 				]
 			}),
