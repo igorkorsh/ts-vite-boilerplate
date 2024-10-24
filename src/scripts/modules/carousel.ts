@@ -1,13 +1,12 @@
 import EmblaCarousel, { EmblaCarouselType, EmblaOptionsType } from "embla-carousel"
+import AutoHeight from "embla-carousel-auto-height"
 
-type CarouselModulesType = {
+type CarouselOptionsType = {
+	embla: EmblaOptionsType
 	navigation: CarouselNavigationType
-	pagination: CarouselPaginationType
-	viewport: CarouselViewportType
-}
-
-type CarouselViewportType = {
-	el: string
+	pagination: string
+	viewport: string
+	plugins: CarouselPluginsType
 }
 
 type CarouselNavigationType = {
@@ -15,93 +14,92 @@ type CarouselNavigationType = {
 	nextEl: string
 }
 
-type CarouselPaginationType = {
-	el: string
+type CarouselPluginsType = {
+	autoHeight?: boolean
 }
 
-type CarouselOptionsType = EmblaOptionsType & Partial<CarouselModulesType>
+const DEFAULT_OPTIONS: CarouselOptionsType = {
+	embla: {
+		align: "start",
+		direction: document.dir as EmblaOptionsType["direction"]
+	},
+	viewport: ".carousel__viewport",
+	navigation: {
+		prevEl: ".carousel__button--prev",
+		nextEl: ".carousel__button--next"
+	},
+	pagination: ".carousel__pagination",
+	plugins: { autoHeight: false }
+}
 
 export class Carousel {
 	private carousel: EmblaCarouselType | null = null
 	private element: HTMLElement
 	private options: CarouselOptionsType
+	private plugins: any[]
 
-	constructor(selector: string, options: CarouselOptionsType) {
-		const DEFAULT_OPTIONS: CarouselOptionsType = {}
+	constructor(selector: string, options?: Partial<CarouselOptionsType>) {
 		this.element = document.querySelector<HTMLElement>(selector)!
 		this.options = { ...DEFAULT_OPTIONS, ...options }
+		this.plugins = []
 
-		if (this.element) {
-			const viewport = this.element.querySelector<HTMLElement>(this.options.viewport!.el)
+		if (!this.element || !this.options.viewport) return
 
-			if (viewport) {
-				this.carousel = EmblaCarousel(viewport, options)
-				this.Navigation()
-				this.Pagination()
-			}
+		if (this.options.plugins.autoHeight) {
+			this.plugins.push(AutoHeight())
+		}
+
+		const viewport = this.element.querySelector<HTMLElement>(this.options.viewport)
+
+		if (viewport) {
+			this.carousel = EmblaCarousel(viewport, this.options.embla, this.plugins)
+			this.Navigation(this.carousel)
+			this.Pagination(this.carousel)
 		}
 	}
 
-	private Navigation() {
-		if (!this.options.navigation || !this.carousel) return
+	private Navigation(carousel: EmblaCarouselType) {
+		if (!this.options.navigation) return
 
-		const prevButton = this.element.querySelector<HTMLElement>(this.options.navigation.prevEl)
-		const nextButton = this.element.querySelector<HTMLElement>(this.options.navigation.nextEl)
-		const { scrollPrev, scrollNext } = this.carousel
+		const { prevEl, nextEl } = this.options.navigation
+		const { scrollPrev, scrollNext } = carousel
+		const prevButton = this.element.querySelector<HTMLElement>(prevEl)
+		const nextButton = this.element.querySelector<HTMLElement>(nextEl)
 
 		prevButton?.addEventListener("click", () => scrollPrev())
 		nextButton?.addEventListener("click", () => scrollNext())
 	}
 
-	private Pagination() {
-		if (!this.options.pagination || !this.carousel) return
+	private Pagination(carousel: EmblaCarouselType) {
+		if (!this.options.pagination) return
 
-		const element = this.element.querySelector<HTMLElement>(this.options.pagination.el)
+		const element = this.element.querySelector<HTMLElement>(this.options.pagination)
 
-		if (!element) return
+		if (element) {
+			let dots: HTMLElement[] = []
 
-		this.carousel.scrollSnapList().forEach(() => {
-			const dot = document.createElement("button")
-			dot.type = "button"
-			dot.classList.add("carousel__pagination-bullet")
-			element.appendChild(dot)
-		})
+			const createDots = () => {
+				element.innerHTML = carousel
+					.scrollSnapList()
+					.map(() => `<button type="button" class="carousel__dot"></button>`)
+					.join("")
 
-		const dots = [...element.querySelectorAll<HTMLElement>(".carousel__pagination-bullet")]
+				dots = [...element.querySelectorAll<HTMLElement>(".carousel__dot")]
+				dots.forEach((dot, index) => {
+					dot.addEventListener("click", () => carousel.scrollTo(index), false)
+				})
+			}
 
-		dots.forEach((dot, index) => {
-			dot.addEventListener("click", () => this.carousel?.scrollTo(index))
-		})
+			const toggle = () => {
+				const previous = carousel.previousScrollSnap()
+				const selected = carousel.selectedScrollSnap()
 
-		this.carousel.on("init", () => this.toggle(dots))
-		this.carousel.on("select", () => this.toggle(dots))
-	}
+				dots[previous].classList.remove("active")
+				dots[selected].classList.add("active")
+			}
 
-	private toggle(dots: HTMLElement[]) {
-		if (!this.carousel) return
-
-		const prev = this.carousel.previousScrollSnap()
-		const selected = this.carousel.selectedScrollSnap()
-
-		dots[prev].classList.remove("active")
-		dots[selected].classList.add("active")
-	}
-}
-
-const options: CarouselOptionsType = {
-	loop: true,
-	align: "start",
-	direction: document.dir as EmblaOptionsType["direction"],
-	viewport: {
-		el: ".carousel__viewport"
-	},
-	navigation: {
-		prevEl: ".carousel__button--prev",
-		nextEl: ".carousel__button--next"
-	},
-	pagination: {
-		el: ".carousel__pagination"
+			carousel.on("init", createDots).on("reInit", createDots)
+			carousel.on("init", toggle).on("reInit", toggle).on("select", toggle)
+		}
 	}
 }
-
-new Carousel(".carousel", options)

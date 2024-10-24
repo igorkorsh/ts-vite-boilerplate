@@ -11,17 +11,16 @@ $fonts: (
 	// zh-Hant: "Noto Sans TC",
 );
 
-body {
+.body {
 	display: grid;
 	grid-template-rows: auto 1fr auto;
 	min-width: 360px;
-	height: 100%;
 	color: $white;
 	font-family: "Kaspersky Sans Display", sans-serif;
 	background-color: $gray-100;
 
 	@each $key, $value in $fonts {
-		&[lang="#{$key}"] {
+		[lang="#{$key}"] & {
 			font-family: #{$value}, "Noto Sans", sans-serif;
 		}
 	}

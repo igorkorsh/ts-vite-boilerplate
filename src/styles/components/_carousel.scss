@@ -1,54 +1,68 @@
+@use "sass:map";
 @use "../base/colors" as *;
 @use "../base/mixins" as *;
 @use "button";
 
+$carousel-arrow: "green" !default; // "green", "black", "in-circle"
+$carousel-dot: "green" !default; // "green", "black", "white", "violet"
+
 .carousel {
 	position: relative;
-	margin-bottom: 50px;
+	display: grid;
+	grid-template-columns: 1fr;
+	justify-content: center;
+	align-items: center;
+
+	@include for-tablet-up {
+		grid-template-columns: auto 1fr auto;
+	}
 }
 
 .carousel__viewport {
+	padding-inline: 12px;
 	overflow: hidden;
-
-	@include for-tablet-up {
-		max-width: calc(100% - 128px);
-		margin-inline: auto;
-	}
 }
 
 .carousel__wrapper {
-	display: grid;
-	grid-auto-columns: 100%;
-	grid-auto-flow: column;
-
-	@include for-tablet-up {
-		grid-auto-columns: calc(100% / 2 + 8px);
-	}
-
-	@include for-desktop-up {
-		grid-auto-columns: calc(100% / 3 + 8px);
-	}
+	display: flex;
+	align-items: flex-start;
+	transition: height 0.2s ease;
 }
 
 .carousel__slide {
-	@include for-tablet-up {
-		margin-inline-end: 24px;
-	}
+	flex: 0 0 100%;
+	min-width: 0;
+	padding: 48px 12px;
+
+	// @include for-tablet-up {
+	// 	flex-basis: calc(100% / 2);
+	// }
+
+	// @include for-desktop-up {
+	// 	flex-basis: calc(100% / 3);
+	// }
 }
 
+// Arrows
 .carousel__button--prev,
 .carousel__button--next {
 	@extend .button;
-	position: absolute;
-	top: 0;
-	height: 100%;
-	overflow: visible;
-	color: $green-600;
-	transition: color 0.2s ease;
+	@if $carousel-arrow == "green" {
+		@extend %arrow-green;
+	} @else if $carousel-arrow == "black" {
+		@extend %arrow-black;
+	} @else if $carousel-arrow == "in-circle" {
+		@extend %arrow-in-circle;
+	}
 
 	@include for-phone-only {
 		display: none;
 	}
+}
+
+%arrow-green {
+	color: $green-600;
+	transition: color 0.2s ease;
 
 	&:hover {
 		color: $green-300;
@@ -59,43 +73,115 @@
 	}
 }
 
+%arrow-black {
+	color: $black;
+	transition: color 0.2s ease;
+
+	&:hover {
+		color: $gray-500;
+	}
+
+	&:disabled {
+		color: $gray-700;
+	}
+}
+
+%arrow-in-circle {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	width: 80px;
+	height: 80px;
+	color: $green-300;
+	background-color: $gray-200;
+	border-radius: 50%;
+	transition: background-color 0.2s ease;
+
+	&:hover {
+		background-color: rgba($gray-200, 0.7);
+	}
+
+	&:disabled {
+		background-color: rgba($gray-200, 0.6);
+	}
+}
+
 .carousel__button--prev {
-	left: 0px;
-	transform: rotate(180deg);
+	order: -1;
+	transform: scaleX(-1);
 
 	[dir="rtl"] & {
-		transform: none;
+		transform: scaleX(1);
 	}
 }
 
 .carousel__button--next {
-	right: 0;
-	transform: rotate(180deg);
-
-	[dir="ltr"] & {
-		transform: none;
+	[dir="rtl"] & {
+		transform: scaleX(-1);
 	}
 }
 
+// Pagination
 .carousel__pagination {
-	position: absolute;
-	bottom: -50px;
 	display: flex;
-	justify-content: center;
-	width: 100%;
+	grid-column: span 3;
+	margin-inline: auto;
 	column-gap: 12px;
 }
 
-.carousel__pagination-bullet {
+.carousel__dot {
 	@extend .button;
+	@if $carousel-dot == "green" {
+		@extend %dot-green;
+	} @else if $carousel-dot == "black" {
+		@extend %dot-black;
+	} @else if $carousel-dot == "white" {
+		@extend %dot-white;
+	} @else if $carousel-dot == "violet" {
+		@extend %dot-violet;
+	}
 	width: 10px;
 	height: 10px;
-	background-color: $white-32;
 	border-radius: 10px;
 	transition: all 0.2s ease;
 
 	&.active {
 		width: 70px;
+	}
+}
+
+%dot-green {
+	background-color: $gray-700;
+
+	&.active {
 		background-color: $green-300;
 	}
+}
+
+%dot-black {
+	background-color: $gray-700;
+
+	&.active {
+		background-color: $black;
+	}
+}
+
+%dot-white {
+	background-color: $white-32;
+
+	&.active {
+		background-color: $white;
+	}
+}
+
+%dot-violet {
+	background-color: $violet-200;
+
+	&.active {
+		background-color: $violet-600;
+	}
+}
+
+.test {
+	box-shadow: $shadow-card;
 }

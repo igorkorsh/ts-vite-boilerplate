@@ -89,7 +89,8 @@ $modal-styles: map.get($modal, $modal-theme);
 	transition: color 0.2s ease;
 	pointer-events: all;
 
-	#player + & {
+	#player + &,
+	#rutube + & {
 		position: absolute;
 		top: -32px;
 		right: 0;

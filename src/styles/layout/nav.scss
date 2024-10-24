@@ -1,4 +1,7 @@
 @use "sass:map";
+@use "../base/colors" as *;
+@use "../base/mixins" as *;
+@use "../components/button" as *;
 
 $nav: (
 	"light": (

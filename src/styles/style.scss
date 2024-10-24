@@ -1,5 +1,5 @@
-@import "base";
-@import "components";
+@use "base";
+@use "components";
 
-@import "layout/nav";
-@import "layout/footer";
+@use "layout/nav";
+@use "layout/footer";

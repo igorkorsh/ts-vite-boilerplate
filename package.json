@@ -1,11 +1,11 @@
 {
 	"name": "ts-vite-boilerplate",
 	"private": false,
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"type": "module",
 	"author": "Igor Korshunov <igor.korshunov@logrusit.com>",
 	"engines": {
-		"node": "20.15.0"
+		"node": "20.18.0"
 	},
 	"scripts": {
 		"dev": "vite",
@@ -26,18 +26,19 @@
 	},
 	"devDependencies": {
 		"@types/grecaptcha": "^3.0.9",
-		"@types/node": "^22.7.5",
+		"@types/node": "^22.10.7",
 		"@types/youtube": "^0.1.0",
 		"autoprefixer": "^10.4.20",
-		"embla-carousel": "^8.3.0",
-		"fast-glob": "^3.3.2",
-		"nanoid": "^5.0.7",
+		"embla-carousel": "^8.5.2",
+		"embla-carousel-auto-height": "^8.5.2",
+		"fast-glob": "^3.3.3",
+		"nanoid": "^5.0.9",
 		"postcss-inline-svg": "^6.0.0",
-		"postcss-rtlcss": "^5.5.0",
+		"postcss-rtlcss": "^5.6.0",
 		"postcss-sort-media-queries": "^5.2.0",
-		"sass": "^1.79.4",
-		"typescript": "^5.5.3",
-		"vite": "^5.4.8",
-		"vite-plugin-static-copy": "^2.0.0"
+		"sass": "^1.83.4",
+		"typescript": "^5.7.3",
+		"vite": "^5.4.11",
+		"vite-plugin-static-copy": "^2.2.0"
 	}
 }

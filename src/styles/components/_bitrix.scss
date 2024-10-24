@@ -1,6 +1,7 @@
 @use "sass:map";
 @use "../base/colors" as *;
 @use "../base/mixins" as *;
+@use "global";
 
 $bitrix: (
 	"white": (
@@ -46,6 +47,12 @@ $bitrix-styles: map.get($bitrix, $bitrix-theme);
 
 .b24-form * {
 	font-family: "Kaspersky Sans Display", sans-serif !important;
+
+	@each $key, $value in global.$fonts {
+		[lang="#{$key}"] & {
+			font-family: #{$value}, "Noto Sans", sans-serif !important;
+		}
+	}
 }
 
 // Устанавливает максимальную ширину обертки
