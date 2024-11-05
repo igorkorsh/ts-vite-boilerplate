@@ -21,7 +21,7 @@ body {
 	background-color: $gray-100;
 
 	@each $key, $value in $fonts {
-		&[lang="#{$key}"] {
+		[lang="#{$key}"] & {
 			font-family: #{$value}, "Noto Sans", sans-serif;
 		}
 	}
