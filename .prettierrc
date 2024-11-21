@@ -5,5 +5,11 @@
 	"semi": false,
 	"singleQuote": false,
 	"trailingComma": "none",
-	"arrowParens": "avoid"
+	"arrowParens": "avoid",
+	"overrides": [
+		{
+			"files": "*.html",
+			"options": { "semi": true }
+		}
+	]
 }
