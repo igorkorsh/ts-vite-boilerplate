@@ -1,78 +1,86 @@
 import { VideoPlayer } from "./video"
 
 class Modal {
-  private modal: HTMLElement | null = null
-  private player: VideoPlayer | null = null
+	private modal: HTMLElement | null = null
+	private player: VideoPlayer | null = null
 
-  constructor() {
-    document.addEventListener("click", this.handleClick)
-  }
+	constructor() {
+		document.addEventListener("click", this.handleClick)
+	}
 
-  public open(modalEl: HTMLElement | null) {
-    if (!modalEl) return
+	public open(modalEl: HTMLElement | null) {
+		if (!modalEl) return
 
-    document.body.classList.add("no-scroll")
-    modalEl.classList.add("active")
-    modalEl.setAttribute("aria-hidden", "false")
-    document.addEventListener("click", this.closeOnClick)
-    window.addEventListener("keydown", this.handleKeyDown)
-    this.modal = modalEl
-  }
+		const bodyEl = document.querySelector(".body")
 
-  public close() {
-    if (!this.modal) return
+		if (bodyEl) {
+			bodyEl.classList.add("no-scroll")
+			modalEl.classList.add("active")
+			modalEl.setAttribute("aria-hidden", "false")
+			document.addEventListener("click", this.closeOnClick)
+			window.addEventListener("keydown", this.handleKeyDown)
+			this.modal = modalEl
+		}
+	}
 
-    document.body.classList.remove("no-scroll")
-    this.modal.classList.remove("active")
-    this.modal.setAttribute("aria-hidden", "true")
-    document.removeEventListener("click", this.closeOnClick)
-    window.removeEventListener("keydown", this.handleKeyDown)
-    this.modal = null
+	public close() {
+		if (!this.modal) return
 
-    if (this.player) {
-      this.player.pause()
-    }
-  }
+		const bodyEl = document.querySelector(".body")
 
-  private handleClick = async (event: MouseEvent) => {
-    const target = event.target as HTMLElement
+		if (bodyEl) {
+			bodyEl.classList.remove("no-scroll")
+			this.modal.classList.remove("active")
+			this.modal.setAttribute("aria-hidden", "true")
+			document.removeEventListener("click", this.closeOnClick)
+			window.removeEventListener("keydown", this.handleKeyDown)
+			this.modal = null
+		}
 
-    if (target.closest("[data-modal]")) {
-      const modalSelector = target.getAttribute("data-modal")
-      const videoUrl = target.getAttribute("data-video")
-      this.modal = modalSelector ? document.querySelector<HTMLElement>(modalSelector) : null
+		if (this.player) {
+			this.player.pause()
+		}
+	}
 
-      if (this.modal) {
-        if (videoUrl) {
-          if (!this.player) {
-            this.player = await VideoPlayer.create(videoUrl)
-          }
+	private handleClick = async (event: MouseEvent) => {
+		const target = event.target as HTMLElement
 
-          this.player.play(videoUrl)
-        }
+		if (target.closest("[data-modal]")) {
+			const modalSelector = target.getAttribute("data-modal")
+			const videoUrl = target.getAttribute("data-video")
+			this.modal = modalSelector ? document.querySelector<HTMLElement>(modalSelector) : null
 
-        this.open(this.modal)
-      }
-    }
-  }
+			if (this.modal) {
+				if (videoUrl) {
+					if (!this.player) {
+						this.player = await VideoPlayer.create(videoUrl)
+					}
 
-  private closeOnClick = (event: MouseEvent) => {
-    if (!this.modal) return
+					this.player.play(videoUrl)
+				}
 
-    const targetNode = event.target as Node
-    const dialogEl = this.modal.querySelector<HTMLElement>(".modal__dialog")
-    const buttonEl = this.modal.querySelector<HTMLButtonElement>(".modal__close")
+				this.open(this.modal)
+			}
+		}
+	}
 
-    if (!dialogEl?.contains(targetNode) || buttonEl?.contains(targetNode)) {
-      this.close()
-    }
-  }
+	private closeOnClick = (event: MouseEvent) => {
+		if (!this.modal) return
 
-  private handleKeyDown = (event: KeyboardEvent) => {
-    if (event.key === "Escape") {
-      this.close()
-    }
-  }
+		const targetNode = event.target as Node
+		const dialogEl = this.modal.querySelector<HTMLElement>(".modal__dialog")
+		const buttonEl = this.modal.querySelector<HTMLButtonElement>(".modal__close")
+
+		if (!dialogEl?.contains(targetNode) || buttonEl?.contains(targetNode)) {
+			this.close()
+		}
+	}
+
+	private handleKeyDown = (event: KeyboardEvent) => {
+		if (event.key === "Escape") {
+			this.close()
+		}
+	}
 }
 
 new Modal()
