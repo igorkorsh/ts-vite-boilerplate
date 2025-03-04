@@ -9,7 +9,11 @@
 	"overrides": [
 		{
 			"files": "*.html",
-			"options": { "semi": true }
+			"options": {
+				"semi": true,
+				"bracketSameLine": true,
+				"htmlWhitespaceSensitivity": "ignore"
+			}
 		}
 	]
 }

@@ -1,4 +1,5 @@
 import "./modules/nav"
+import "./modules/title"
 import "./modules/year"
 import "./modules/modal"
 import "./modules/marketo"
