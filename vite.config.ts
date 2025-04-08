@@ -23,6 +23,10 @@ export default defineConfig({
 						src: normalizePath(path.resolve(__dirname, "src/images/static/*")),
 						dest: normalizePath(path.resolve(__dirname, "build/images"))
 					}
+					// {
+					// 	src: normalizePath(path.resolve(__dirname, "src/assets/*")),
+					// 	dest: normalizePath(path.resolve(__dirname, "build/assets"))
+					// }
 				]
 			}),
 		isProd && {
@@ -67,6 +71,9 @@ export default defineConfig({
 					.map(file => [path.basename(file, ".html"), fileURLToPath(new URL(file, import.meta.url))])
 			),
 			output: {
+				entryFileNames() {
+					return "scripts/[name].js"
+				},
 				assetFileNames(assetInfo) {
 					if (assetInfo.names?.some(file => file.endsWith(".css"))) {
 						return "styles/[name].css"
@@ -81,9 +88,6 @@ export default defineConfig({
 					}
 
 					return "assets/[name].[ext]"
-				},
-				entryFileNames() {
-					return "scripts/[name].js"
 				}
 			}
 		}

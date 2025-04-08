@@ -34,7 +34,11 @@ export class VideoPlayer {
 	 * Асинхронно создает новый экземпляр класса.
 	 */
 	static async create(url: string): Promise<VideoPlayer> {
-		await this.loadApi()
+		const { hostname } = new URL(url)
+		if (hostname.match(/(www\.)?youtube.com|youtu.be/)) {
+			await this.loadApi()
+		}
+
 		return new VideoPlayer(url)
 	}
 
@@ -80,7 +84,7 @@ export class VideoPlayer {
 				break
 			case Platform.Rutube:
 				if (!this.player) {
-					this.initRutubePlayer(this.video.currentUrl)
+					this.initRutubePlayer(this.video.currentUrl.replace("video", "play/embed"))
 				} else if (this.player instanceof HTMLIFrameElement) {
 					this.player.contentWindow?.postMessage(
 						JSON.stringify({
