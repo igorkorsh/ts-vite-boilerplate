@@ -14,6 +14,7 @@ const isProd = process.env.NODE_ENV === "production"
 export default defineConfig({
 	root: path.resolve(__dirname, "src"),
 	base: "./",
+	publicDir: path.resolve(__dirname, "public"),
 	plugins: [
 		SpritePlugin(path.resolve(__dirname, "src/sprite")),
 		isProd &&
