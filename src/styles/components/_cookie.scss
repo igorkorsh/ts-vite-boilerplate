@@ -1,0 +1,44 @@
+@use "../base/colors" as *;
+@use "../base/mixins" as *;
+@use "../components/button";
+
+.cookie {
+	position: fixed;
+	right: 0;
+	bottom: 0;
+	left: 0;
+	background-color: rgba(0, 0, 0, 0.8);
+
+	&__container {
+		display: grid;
+		gap: 16px;
+		align-items: center;
+		padding-block: 16px;
+
+		@include for-tablet-up {
+			grid-template-columns: 1fr auto;
+			gap: 32px;
+		}
+	}
+
+	&__text {
+		color: $white;
+		font-weight: 400;
+		font-size: 14px;
+		line-height: 18px;
+	}
+
+	&__link {
+		color: $green-300;
+		transition: color 0.2s ease;
+
+		&:hover {
+			color: $green-200;
+		}
+	}
+
+	&__button {
+		@extend %size-40;
+		@extend %primary-green;
+	}
+}
