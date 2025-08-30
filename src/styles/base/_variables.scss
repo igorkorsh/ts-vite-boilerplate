@@ -1,3 +1,8 @@
+/* Breakpoints */
+$bp-tablet: 640px;
+$bp-desktop: 1024px;
+
+/* Colors */
 $green-600: #00a88e;
 $green-300: #29ccb1;
 $green-200: #3de8ca;
@@ -10,10 +15,10 @@ $gray-100: #0f151c;
 $gray-200: #131a23;
 $gray-300: #21272f;
 $gray-400: #383f48;
-$gray-500: rgba(42, 53, 65, 0.7);
-$gray-600: rgba(34, 52, 73, 0.4);
-$gray-700: rgba(29, 54, 83, 0.17);
-$gray-800: rgba(41, 77, 117, 0.09);
+$gray-500: rgba(#2a3541, 0.7);
+$gray-600: rgba(#223449, 0.4);
+$gray-700: rgba(#1d3653, 0.17);
+$gray-800: rgba(#294d75, 0.09);
 $gray-900: #f4f7fa;
 
 $white-80: rgba($white, 0.8);
@@ -23,8 +28,6 @@ $white-32: rgba($white, 0.32);
 $white-20: rgba($white, 0.2);
 $white-10: rgba($white, 0.1);
 
-// Secondary colors
-// https://www.figma.com/proto/y22ZHiEWQQF3fLAnG6hpHz/Brand$-Visual-Identity$-2024?page-id=1%3A6&node-id=7164-27362&viewport=182%2C354%2C0.13&scaling=contain
 $cyan-600: #33bbff;
 $cyan-300: #7bd3ff;
 $cyan-200: #9ddeff;
@@ -98,6 +101,7 @@ $interface-blue-pressed: #304ee4;
 $interface-red-hover: #ff5470;
 $interface-red-pressed: #e4304e;
 
+/* Shadows */
 $shadow-100: 0px 2px 4px -2px rgba(#18274b, 0.12), 0px 4px 4px -2px rgba(#18274b, 0.08);
 $shadow-300: 0px 6px 8px -6px rgba(#18274b, 0.12), 0px 8px 16px -6px rgba(#18274b, 0.08);
 $shadow-500: 0px 6px 14px -6px rgba(#18274b, 0.12), 0px 10px 32px -4px rgba(#18274b, 0.1);
@@ -107,8 +111,13 @@ $shadow-card-hover: 0px 8px 40px 0px rgba(#556e6e, 0.24);
 $shadow-green: 0px 4px 24px 0px rgba(#23d1ae, 0.24);
 $shadow-green-hover: 0px 8px 32px 0px rgba(#23d1ae, 0.4);
 $shadow-dark: 0px 4px 32px 0px rgba(#000000, 0.32);
-$shadow-dark-hover: 0px 8px 40px 0px rvar(#000000, 0.48);
+$shadow-dark-hover: 0px 8px 40px 0px rgba(#000000, 0.48);
+$shadow-red: 0px 8px 40px rgba(#fa625b, 0.24);
+$shadow-neon: 0px 5px 15px 0px rgba($green-200, 0.32);
+$shadow-neon-hover: 0px 7px 24px 0px rgba($green-300, 0.4);
+$shadow-neon-active: 0px 2px 12px 0px rgba(#8240fb, 0.24);
 
+/* Gradients */
 $gradient-green: linear-gradient(26deg, $green-600 22.8%, $green-200 84.13%);
 $gradient-green-dark: linear-gradient(41deg, $black 0%, #146658 44.27%, $green-300 100%);
 $gradient-green-neon: linear-gradient(217deg, $mint-600 15.95%, $green-200 83.66%);

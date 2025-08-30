@@ -1,19 +1,9 @@
 {
-	"printWidth": 120,
+	"printWidth": 160,
 	"tabWidth": 2,
 	"useTabs": true,
 	"semi": false,
-	"singleQuote": false,
 	"trailingComma": "none",
-	"arrowParens": "avoid",
-	"overrides": [
-		{
-			"files": "*.html",
-			"options": {
-				"semi": true,
-				"bracketSameLine": true,
-				"htmlWhitespaceSensitivity": "ignore"
-			}
-		}
-	]
+	"bracketSameLine": true,
+	"htmlWhitespaceSensitivity": "strict"
 }

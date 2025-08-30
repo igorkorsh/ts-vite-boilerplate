@@ -1,37 +1,43 @@
-import { promises as fs } from "fs"
-import { Plugin } from "vite"
-import path from "path"
+import type { Plugin } from "vite"
+import { resolve, basename } from "node:path"
+import { promises as fs } from "node:fs"
 
-export const SpritePlugin = (dir: string): Plugin => {
-	async function createSprite(): Promise<string> {
-		const files = await fs.readdir(dir)
-		let symbols = ""
+export function convertToSymbol(content: string = "", name: string = ""): string {
+	return content
+		.replace(/\s*xmlns="http:\/\/www\.w3\.org\/2000\/svg"/, "")
+		.replace(/<svg([^>]*)>/, `<symbol id="${name}"$1>`)
+		.replace("</svg>", "</symbol>")
+}
+
+export default function spritePlugin(): Plugin {
+	const createSprite = async (ids: string[]): Promise<string> => {
+		let sprite = ""
+		const directory = resolve(process.cwd(), "src/sprite")
+		const files = await fs.readdir(directory)
 
 		for (const file of files) {
-			if (!file.endsWith(".svg")) continue
+			const fileName = basename(file, ".svg")
 
-			let content = await fs.readFile(path.join(dir, file), "utf8")
-			const id = file.replace(".svg", "")
-			content = content
-				.replace('xmlns="http://www.w3.org/2000/svg" ', "")
-				.replace("<svg", `<symbol id="${id}"`)
-				.replace("</svg>", "</symbol>")
-			symbols += content
+			if (!file.endsWith(".svg")) continue
+			if (!ids.includes(fileName)) continue
+
+			let content = await fs.readFile(resolve(directory, file), "utf-8")
+			content = convertToSymbol(content, fileName)
+			sprite += content
 		}
 
-		return `<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="display: none" aria-hidden="true">${symbols}</svg>`
+		// Если нет символов, то не возвращаем svg
+		if (!sprite) return ""
+
+		return `<svg xmlns="http://www.w3.org/2000/svg" width="0" height="0" style="display: none" aria-hidden="true">${sprite}</svg>`
 	}
 
 	return {
 		name: "svg-sprite",
-		async transformIndexHtml(html): Promise<string> {
-			const sprite = await createSprite()
+		async transformIndexHtml(html) {
+			const ids = Array.from(html.matchAll(/<use href=\"#(.+)\"/g), (match) => match[1])
+			const sprite = await createSprite(ids)
 			return html.replace("<!-- svg-sprite -->", sprite)
-		},
-		handleHotUpdate({ server }) {
-			server.hot.send({
-				type: "full-reload"
-			})
 		}
 	}
 }

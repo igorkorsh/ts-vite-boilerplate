@@ -1,0 +1,31 @@
+<button type="button" data-target="#modalText">Text</button>
+<button type="button" data-target="#modalVideo" data-url="https://www.youtube.com/embed/M3ozIvoCFzw">Youtube</button>
+<button type="button" data-target="#modalVideo" data-url="https://youtu.be/wh5stiSOjZQ">Youtube</button>
+<button type="button" data-target="#modalVideo" data-url="https://www.youtube.com/watch?v=wh5stiSOjZQ">Youtube</button>
+<button type="button" data-target="#modalVideo" data-url="https://rutube.ru/video/7716bd3e665725c3c008ae7ab4ff02e2">Rutube</button>
+<button type="button" data-target="#modalVideo" data-url="https://rutube.ru/play/embed/9abd1edd79a232c9c48dfb02888bb331">Rutube</button>
+<button type="button" data-target="#modalVideo" data-url="https://vkvideo.ru/video-224257651_456239661">VK</button>
+<button type="button" data-target="#modalVideo" data-url="https://vk.com/video-218705758_456239214">VK</button>
+<button type="button" data-target="#modalVideo" data-url="https://box.kaspersky.com/f/28a3ffe94b004cca9106/?dl=1">HTML5</button>
+
+<!-- Для каждого модального окна с текстом нужно создать блок кода со следующей структурой -->
+<dialog class="modal" id="modalText">
+	<div class="modal__content">
+		Lorem ipsum dolor, sit amet consectetur adipisicing elit. Dolorum repellendus eveniet, provident blanditiis esse reiciendis minus quia in accusamus magnam.
+	</div>
+	<button type="button" class="button" data-close autofocus>
+		<svg aria-hidden="true">
+			<use href="#close"></use>
+		</svg>
+	</button>
+</dialog>
+
+<!-- Для модального окна с видео достаточно одного блока кода со следующей структурой -->
+<dialog class="modal" id="modalVideo">
+	<div id="player"></div>
+	<button type="button" class="button" data-close autofocus>
+		<svg aria-hidden="true">
+			<use href="#close"></use>
+		</svg>
+	</button>
+</dialog>

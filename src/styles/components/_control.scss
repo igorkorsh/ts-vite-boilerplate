@@ -1,0 +1,97 @@
+@use "../base/variables" as *;
+
+// Light
+// :root {
+// 	--control: #{$gray-600};
+// 	--control-hover: #{$gray-500};
+// 	--control-checked: #{$green-600};
+// 	--control-checked-hover: #{$green-300};
+// }
+
+// Dark
+:root {
+	--control: #{$white};
+	--control-hover: #{$white-60};
+	--control-checked: #{$green-600};
+	--control-checked-hover: #{$green-300};
+}
+
+input[type="checkbox"] {
+	width: 20px;
+	height: 20px;
+	padding: 0;
+	background-color: transparent;
+	border: 2px solid var(--control);
+	border-radius: 4px;
+	outline: none;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	appearance: none;
+
+	&:hover {
+		border-color: var(--control-hover);
+	}
+
+	&:checked {
+		background-color: var(--control-checked);
+		background-image: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path style="fill: %23fff" d="M16.31 6.29a.9959.9959 0 0 0-1.41 0l-6.36 6.36-2.83-2.83a.9959.9959 0 0 0-1.41 0c-.39.39-.39 1.02 0 1.41l3.54 3.54c.39.39 1.02.39 1.41 0l7.07-7.07c.39-.39.39-1.02 0-1.41Z"/></svg>');
+		border-color: var(--control-checked);
+
+		&:hover {
+			background-color: var(--control-checked-hover);
+			border-color: var(--control-checked-hover);
+		}
+	}
+}
+
+input[type="radio"] {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	width: 22px;
+	height: 22px;
+	background-color: transparent;
+	border: 2px solid var(--control);
+	border-radius: 50%;
+	outline: none;
+	cursor: pointer;
+	transition: all 0.3s ease;
+	appearance: none;
+
+	&:hover {
+		border-color: var(--control-hover);
+	}
+
+	&::before {
+		width: 10px;
+		height: 10px;
+		background-color: var(--control-checked);
+		border-radius: 50%;
+		transform: scale(0);
+		transition: all 0.3s ease;
+		content: "";
+	}
+
+	&:hover {
+		&::before {
+			background-color: var(--control-checked-hover);
+		}
+	}
+
+	&:checked {
+		border-color: var(--control-checked);
+
+		&::before {
+			transform: scale(1);
+		}
+
+		&:hover {
+			border-color: var(--control-checked-hover);
+
+			&::before {
+				background-color: var(--control-checked-hover);
+			}
+		}
+	}
+}

@@ -1,187 +1,74 @@
-@use "sass:map";
-@use "../base/colors" as *;
-@use "../base/mixins" as *;
-@use "button";
+@use "../base/variables" as *;
 
-$carousel-arrow: "green" !default; // "green", "black", "in-circle"
-$carousel-dot: "green" !default; // "green", "black", "white", "violet"
+// Light
+// $dot: $gray-700;
+// $dot-active: $green-300;
+// $arrow: $green-600;
+// $arrow-hover: $green-300;
+
+// Dark
+$dot: $white-32;
+$dot-active: $green-300;
+$arrow: $green-600;
+$arrow-hover: $green-300;
 
 .carousel {
-	position: relative;
+	--slides: 3;
+	--slide-spacing: 16px;
 	display: grid;
-	grid-template-columns: 1fr;
-	justify-content: center;
-	align-items: center;
+	grid-template-columns: 64px 1fr 64px;
+	gap: 40px;
 
-	@include for-tablet-up {
-		grid-template-columns: auto 1fr auto;
-	}
-}
-
-.carousel__viewport {
-	padding-inline: 12px;
-	overflow: hidden;
-}
-
-.carousel__wrapper {
-	display: flex;
-	align-items: flex-start;
-	transition: height 0.2s ease;
-}
-
-.carousel__slide {
-	flex: 0 0 100%;
-	min-width: 0;
-	padding: 48px 12px;
-
-	// @include for-tablet-up {
-	// 	flex-basis: calc(100% / 2);
-	// }
-
-	// @include for-desktop-up {
-	// 	flex-basis: calc(100% / 3);
-	// }
-}
-
-// Arrows
-.carousel__button--prev,
-.carousel__button--next {
-	@extend .button;
-	@if $carousel-arrow == "green" {
-		@extend %arrow-green;
-	} @else if $carousel-arrow == "black" {
-		@extend %arrow-black;
-	} @else if $carousel-arrow == "in-circle" {
-		@extend %arrow-in-circle;
+	&__container {
+		overflow: hidden;
 	}
 
-	@include for-phone-only {
-		display: none;
-	}
-}
-
-%arrow-green {
-	color: $green-600;
-	transition: color 0.2s ease;
-
-	&:hover {
-		color: $green-300;
+	&__wrapper {
+		display: flex;
+		margin-inline-start: calc(var(--slide-spacing) * -1);
+		touch-action: pan-y pinch-zoom;
 	}
 
-	&:disabled {
-		color: $gray-700;
-	}
-}
-
-%arrow-black {
-	color: $black;
-	transition: color 0.2s ease;
-
-	&:hover {
-		color: $gray-500;
+	&__slide {
+		flex: 0 0 calc(100% / var(--slides));
+		min-width: 0;
+		padding-inline-start: var(--slide-spacing);
 	}
 
-	&:disabled {
-		color: $gray-700;
-	}
-}
+	&__button {
+		align-self: center;
+		width: 64px;
+		height: 64px;
+		color: $arrow;
+		transition: color 0.3s ease;
 
-%arrow-in-circle {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	width: 80px;
-	height: 80px;
-	color: $green-300;
-	background-color: $gray-200;
-	border-radius: 50%;
-	transition: background-color 0.2s ease;
+		&:hover {
+			color: $arrow-hover;
+		}
 
-	&:hover {
-		background-color: rgba($gray-200, 0.7);
+		&[data-prev] {
+			order: -1;
+			rotate: 180deg;
+		}
 	}
 
-	&:disabled {
-		background-color: rgba($gray-200, 0.6);
+	&__pagination {
+		display: flex;
+		grid-column: 2;
+		gap: 12px;
+		justify-content: center;
 	}
-}
 
-.carousel__button--prev {
-	order: -1;
-	transform: scaleX(-1);
+	&__dot {
+		width: 10px;
+		height: 10px;
+		background-color: $dot;
+		border-radius: 10px;
+		transition: all 0.3s ease;
 
-	[dir="rtl"] & {
-		transform: scaleX(1);
+		&--active {
+			width: 70px;
+			background-color: $dot-active;
+		}
 	}
-}
-
-.carousel__button--next {
-	[dir="rtl"] & {
-		transform: scaleX(-1);
-	}
-}
-
-// Pagination
-.carousel__pagination {
-	display: flex;
-	grid-column: span 3;
-	margin-inline: auto;
-	column-gap: 12px;
-}
-
-.carousel__dot {
-	@extend .button;
-	@if $carousel-dot == "green" {
-		@extend %dot-green;
-	} @else if $carousel-dot == "black" {
-		@extend %dot-black;
-	} @else if $carousel-dot == "white" {
-		@extend %dot-white;
-	} @else if $carousel-dot == "violet" {
-		@extend %dot-violet;
-	}
-	width: 10px;
-	height: 10px;
-	border-radius: 10px;
-	transition: all 0.2s ease;
-
-	&.active {
-		width: 70px;
-	}
-}
-
-%dot-green {
-	background-color: $gray-700;
-
-	&.active {
-		background-color: $green-300;
-	}
-}
-
-%dot-black {
-	background-color: $gray-700;
-
-	&.active {
-		background-color: $black;
-	}
-}
-
-%dot-white {
-	background-color: $white-32;
-
-	&.active {
-		background-color: $white;
-	}
-}
-
-%dot-violet {
-	background-color: $violet-200;
-
-	&.active {
-		background-color: $violet-600;
-	}
-}
-
-.test {
-	box-shadow: $shadow-card;
 }

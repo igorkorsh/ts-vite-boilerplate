@@ -1,163 +1,62 @@
-@use "sass:map";
-@use "../base/colors" as *;
-@use "../base/mixins" as *;
-@use "button";
+@use "../base/variables" as *;
 
-$modal: (
-	"light": (
-		bgColor: $white,
-		closeColor: $gray-600,
-		closeHoverColor: $gray-500,
-		titleColor: $black,
-		textColor: $gray-400
-	),
-	"dark": (
-		bgColor: $gray-300,
-		closeColor: $white-40,
-		closeHoverColor: $white-80,
-		titleColor: $white,
-		textColor: $white-60
-	)
-);
+// Light
+// $modal-bg: $white;
+// $modal-text: $black;
+// $modal-button: $gray-700;
+// $modal-button-hover: $gray-600;
 
-$modal-theme: "dark" !default;
-$modal-styles: map.get($modal, $modal-theme);
-
-.no-scroll {
-	overflow: hidden;
-}
+// Dark
+$modal-bg: $gray-300;
+$modal-text: $white;
+$modal-button: $white-40;
+$modal-button-hover: $white-60;
 
 .modal {
-	position: fixed;
-	inset: 0;
-	z-index: 999;
-	display: none;
-	background-color: rgba(#000000, 0.9);
-
-	&.active {
-		display: block;
-	}
-}
-
-.modal__dialog {
-	position: relative;
-	display: flex;
-	align-items: center;
-	justify-content: center;
-	height: 100%;
-	max-height: 100%;
-	padding: 32px 16px;
-	pointer-events: none;
-
-	@include for-tablet-up {
-		padding: 32px;
-	}
-}
-
-.modal__content {
-	position: relative;
-	display: grid;
-	grid-template-rows: auto 1fr;
-	width: 100%;
-	max-width: 584px;
-	max-height: calc(100vh - 64px);
-	padding: 32px 24px;
-	overflow: auto;
-	background-color: map.get($modal-styles, bgColor);
+	padding: 0;
+	overflow: visible;
+	color: $modal-text;
+	background-color: $modal-bg;
+	border: none;
 	border-radius: 16px;
-	pointer-events: auto;
+	outline: none;
 
-	&:has(iframe, video) {
-		max-width: 800px;
-		padding: 0;
-		overflow: visible;
+	&::backdrop {
+		background-color: rgba(#000000, 0.9);
 	}
 
-	iframe {
-		width: 100%;
-		height: auto;
-		border-radius: 16px;
-		aspect-ratio: 16 / 9;
-	}
-}
-
-.modal__close {
-	@extend .button;
-	width: 24px;
-	height: 24px;
-	color: map.get($modal-styles, closeColor);
-	transition: color 0.2s ease;
-	pointer-events: all;
-
-	#player + &,
-	#rutube + & {
+	[data-close] {
 		position: absolute;
-		top: -32px;
-		right: 0;
+		width: 24px;
+		height: 24px;
+		color: $modal-button;
+		transition: color 0.3s ease;
 
-		@include for-desktop-up {
-			position: absolute;
-			top: 0;
-			right: -32px;
+		&:hover {
+			color: $modal-button-hover;
 		}
 	}
 
-	&:hover {
-		color: map.get($modal-styles, closeHoverColor);
+	&__content {
+		max-width: 584px;
+		padding: 32px 24px;
+
+		& + [data-close] {
+			inset-block-start: 12px;
+			inset-inline-end: 12px;
+		}
 	}
 
-	.modal__header & {
-		position: absolute;
-		top: 12px;
-		right: 12px;
-		transition: 0.2s ease;
-		transition-property: color;
-	}
-}
+	#player {
+		display: block;
+		width: 800px;
+		height: 450px;
+		overflow: hidden;
+		border-radius: 16px;
 
-.modal__body {
-	margin-top: 16px;
-	overflow: auto;
-}
-
-.modal__title {
-	color: map.get($modal-styles, titleColor);
-	font-weight: 500;
-	font-size: 32px;
-	line-height: 36px;
-}
-
-.modal__text {
-	color: map.get($modal-styles, textColor);
-	font-weight: 400;
-	font-size: 16px;
-	line-height: 20px;
-}
-
-.modal__button-group {
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	gap: 12px;
-	margin-top: 32px;
-}
-
-.modal__button--primary {
-	@extend .button;
-	@extend %size-48;
-	@extend %primary-green;
-
-	@include for-phone-only {
-		width: 100%;
-	}
-}
-
-.modal__button--secondary {
-	@extend .button;
-	@extend %size-48;
-	@extend %ghost-green;
-
-	@include for-phone-only {
-		width: 100%;
+		& + [data-close] {
+			inset-block-start: 0;
+			inset-inline-end: -32px;
+		}
 	}
 }

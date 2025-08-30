@@ -1,27 +1,18 @@
-@use "../base/colors" as *;
-@use "../base/mixins" as *;
-
-@mixin button-size($padding-y, $padding-x, $font-size, $line-height, $border-radius, $font-weight: 600) {
-	padding: $padding-y $padding-x;
-	font-weight: $font-weight;
-	font-size: $font-size;
-	line-height: $line-height;
-	border-radius: $border-radius;
-}
+@use "../base/variables" as *;
 
 .button {
 	display: inline-flex;
 	align-items: center;
 	justify-content: center;
-	text-align: center;
+	padding: 0;
 	text-decoration: none;
 	background-color: transparent;
 	border: none;
 	cursor: pointer;
+	transition: all 0.3s ease;
+	user-select: none;
 
-	&:hover,
-	&:focus,
-	&:active {
+	&:focus {
 		outline: none;
 	}
 
@@ -30,25 +21,38 @@
 	}
 }
 
+@mixin button-size($height, $padding-inline, $font-size, $line-height) {
+	height: $height;
+	padding-inline: $padding-inline;
+	font-weight: 600;
+	font-size: $font-size;
+	line-height: $line-height;
+	border-radius: 8px;
+}
+
 %size-40 {
-	height: 40px;
-	@include button-size(10px, 24px, 16px, 20px, 8px);
+	@include button-size(40px, 24px, 14px, 16px);
 }
 
 %size-48 {
-	height: 48px;
-	@include button-size(14px, 24px, 16px, 20px, 8px);
+	@include button-size(48px, 24px, 16px, 20px);
 }
 
 %size-64 {
-	height: 64px;
-	@include button-size(20px, 24px, 21px, 24px, 8px);
+	@include button-size(64px, 24px, 21px, 24px);
+}
+
+%size-72 {
+	@include button-size(72px, 32px, 24px, 28px);
+}
+
+%size-80 {
+	@include button-size(80px, 40px, 26px, 32px);
 }
 
 %primary-green {
 	color: $white;
 	background-color: $green-600;
-	transition: background-color 0.2s ease;
 
 	&:hover,
 	&:focus {
@@ -58,19 +62,12 @@
 	&:active {
 		background-color: $interface-green-hover;
 	}
-
-	&:disabled {
-		color: $gray-800;
-		background-color: $gray-600;
-	}
 }
 
 %primary-green-shadow {
 	color: $white;
 	background-color: $green-600;
 	box-shadow: $shadow-green-hover;
-	transition: 0.2s ease;
-	transition-property: background-color, box-shadow;
 
 	&:hover,
 	&:focus {
@@ -81,19 +78,11 @@
 		background-color: $interface-green-hover;
 		box-shadow: $shadow-green;
 	}
-
-	&:disabled {
-		color: $gray-800;
-		background-color: $gray-600;
-		box-shadow: none;
-	}
 }
 
 %primary-black {
 	color: $white;
 	background-color: $black;
-	transition: 0.2s ease;
-	transition-property: color;
 
 	&:hover,
 	&:focus {
@@ -103,19 +92,12 @@
 	&:active {
 		color: $green-600;
 	}
-
-	&:disabled {
-		color: $gray-800;
-		background-color: $gray-600;
-	}
 }
 
 %primary-black-shadow {
 	color: $white;
 	background-color: $black;
 	box-shadow: $shadow-card-hover;
-	transition: 0.2s ease;
-	transition-property: color, box-shadow;
 
 	&:hover,
 	&:focus {
@@ -127,19 +109,11 @@
 		color: $green-600;
 		box-shadow: $shadow-card;
 	}
-
-	&:disabled {
-		color: $gray-800;
-		background-color: $gray-600;
-		box-shadow: none;
-	}
 }
 
 %primary-white {
 	color: $black;
 	background-color: $white;
-	transition: 0.2s ease;
-	transition-property: color;
 
 	&:hover,
 	&:focus {
@@ -160,8 +134,6 @@
 	color: $black;
 	background-color: $white;
 	box-shadow: $shadow-card-hover;
-	transition: 0.2s ease;
-	transition-property: color, box-shadow;
 
 	&:hover,
 	&:focus {
@@ -177,15 +149,12 @@
 	&:disabled {
 		color: $gray-600;
 		background-color: $white-32;
-		box-shadow: none;
 	}
 }
 
 %primary-blue {
 	color: $white;
 	background-color: $blue-600;
-	transition: 0.2s ease;
-	transition-property: background-color;
 
 	&:hover,
 	&:focus {
@@ -195,19 +164,12 @@
 	&:active {
 		background-color: $interface-blue-pressed;
 	}
-
-	&:disabled {
-		color: $gray-800;
-		background-color: $gray-600;
-	}
 }
 
 %primary-blue-shadow {
 	color: $white;
 	background-color: $blue-600;
 	box-shadow: $shadow-700;
-	transition: 0.2s ease;
-	transition-property: background-color, box-shadow;
 
 	&:hover,
 	&:focus {
@@ -219,32 +181,19 @@
 		background-color: $interface-blue-pressed;
 		box-shadow: $shadow-100;
 	}
-
-	&:disabled {
-		color: $gray-800;
-		background-color: $gray-600;
-		box-shadow: none;
-	}
 }
 
 %primary-red {
 	color: $white;
 	background: $red-600;
-	transition: 0.2s ease;
-	transition-property: background;
 
 	&:hover,
 	&:focus {
-		background: linear-gradient(0deg, rgba($white, 0.16) 0%, rgba($white, 0.16) 100%, $red-600);
+		background: #ff5470;
 	}
 
 	&:active {
-		background: linear-gradient(0deg, rgba($black, 0.12) 0%, rgba($black, 0.12) 100%, $red-600);
-	}
-
-	&:disabled {
-		color: $gray-800;
-		background-color: $gray-600;
+		background: #e4304e;
 	}
 }
 
@@ -252,31 +201,53 @@
 	color: $white;
 	background: $red-600;
 	box-shadow: 0 8px 40px 0px rgba(#fa625b, 0.24);
-	transition: 0.2s ease;
-	transition-property: background, box-shadow;
 
 	&:hover,
 	&:focus {
-		background: linear-gradient(0deg, rgba($white, 0.16) 0%, rgba($white, 0.16) 100%, $red-600);
+		background: #ff5470;
 	}
 
 	&:active {
-		background: linear-gradient(0deg, rgba($black, 0.12) 0%, rgba($black, 0.12) 100%, $red-600);
+		background: #e4304e;
 		box-shadow: 0 4px 40px 0px rgba(#fa625b, 0.2);
-	}
-
-	&:disabled {
-		color: $gray-800;
-		background-color: $gray-600;
-		box-shadow: none;
 	}
 }
 
-%ghost-black {
+%promo {
+	position: relative;
+	color: $black;
+	background: $gradient-green-neon;
+	box-shadow: $shadow-neon;
+
+	&::after {
+		position: absolute;
+		inset: 0;
+		background-color: #000000;
+		border-radius: inherit;
+		opacity: 0;
+		transition: opacity 0.3s ease;
+		content: "";
+	}
+
+	&:hover,
+	&:focus {
+		background: $gradient-green-neon;
+		box-shadow: $shadow-neon-hover;
+	}
+
+	&:active {
+		background: $gradient-green-neon;
+		box-shadow: shadow-neon-active;
+
+		&::after {
+			opacity: 0.06;
+		}
+	}
+}
+
+%secondary-black {
 	color: $black;
 	border: 2px solid $black;
-	transition: 0.2s ease;
-	transition-property: border-color, color;
 
 	&:hover,
 	&:focus,
@@ -284,19 +255,11 @@
 		color: $gray-500;
 		border-color: $gray-500;
 	}
-
-	&:disabled {
-		color: $gray-600;
-		background-color: $gray-800;
-		border-color: $gray-800;
-	}
 }
 
-%ghost-grey {
+%secondary-grey {
 	color: $black;
 	border: 2px solid $gray-600;
-	transition: 0.2s ease;
-	transition-property: border-color, color;
 
 	&:hover,
 	&:focus,
@@ -304,19 +267,11 @@
 		color: $gray-500;
 		border-color: $gray-700;
 	}
-
-	&:disabled {
-		color: $gray-600;
-		background-color: $gray-800;
-		border-color: $gray-800;
-	}
 }
 
-%ghost-green {
+%secondary-green {
 	color: $green-600;
 	border: 2px solid $green-600;
-	transition: 0.2s ease;
-	transition-property: border-color, color;
 
 	&:hover,
 	&:focus {
@@ -327,11 +282,5 @@
 	&:active {
 		color: $interface-green-hover;
 		border-color: $interface-green-hover;
-	}
-
-	&:disabled {
-		color: $gray-600;
-		background-color: $gray-800;
-		border-color: $gray-800;
 	}
 }

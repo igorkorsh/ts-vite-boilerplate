@@ -1,5 +1,4 @@
-@use "../base/colors" as *;
-@use "../base/mixins" as *;
+@use "../base/variables" as *;
 @use "../components/button";
 
 .cookie {
@@ -7,7 +6,7 @@
 	right: 0;
 	bottom: 0;
 	left: 0;
-	background-color: rgba(0, 0, 0, 0.8);
+	background-color: rgba(#000, 0.8);
 
 	&__container {
 		display: grid;
@@ -15,7 +14,7 @@
 		align-items: center;
 		padding-block: 16px;
 
-		@include for-tablet-up {
+		@media (width >= $bp-tablet) {
 			grid-template-columns: 1fr auto;
 			gap: 32px;
 		}
@@ -30,7 +29,7 @@
 
 	&__link {
 		color: $green-300;
-		transition: color 0.2s ease;
+		transition: color 0.3s ease;
 
 		&:hover {
 			color: $green-200;

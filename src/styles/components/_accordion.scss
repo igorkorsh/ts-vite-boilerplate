@@ -1,26 +1,22 @@
-@use "sass:map";
-@use "../base/colors" as *;
-@use "button";
+@use "../base/variables" as *;
 
-$accordion: (
-	"light": (
-		bgColor: $white,
-		itemShadow: $shadow-card,
-		textColor: $black,
-		iconColor: $green-600,
-		dividerColor: $gray-800
-	),
-	"dark": (
-		bgColor: $gray-300,
-		itemShadow: $shadow-dark,
-		textColor: $white,
-		iconColor: $green-300,
-		dividerColor: $white-10
-	)
-);
+// Light
+// :root {
+// 	--accordion: #{$white};
+// 	--accordion-shadow: #{$shadow-card};
+// 	--accordion-text: #{$black};
+// 	--accordion-icon: #{$green-600};
+// 	--accordion-divider: #{$gray-800};
+// }
 
-$accordion-theme: "dark" !default;
-$accordion-styles: map.get($accordion, $accordion-theme);
+// Dark
+:root {
+	--accordion: #{$gray-300};
+	--accordion-shadow: #{$shadow-dark};
+	--accordion-text: #{$white};
+	--accordion-icon: #{$green-300};
+	--accordion-divider: #{$white-10};
+}
 
 .accordion {
 	display: flex;
@@ -29,9 +25,9 @@ $accordion-styles: map.get($accordion, $accordion-theme);
 }
 
 .accordion__item {
-	background-color: map.get($accordion-styles, bgColor);
+	background-color: var(--accordion);
 	border-radius: 8px;
-	box-shadow: map.get($accordion-styles, itemShadow);
+	box-shadow: var(--accordion-shadow);
 
 	&.open {
 		.accordion__icon::after {
@@ -45,11 +41,10 @@ $accordion-styles: map.get($accordion, $accordion-theme);
 }
 
 .accordion__header {
-	@extend .button;
 	justify-content: space-between;
 	width: 100%;
 	padding: 32px;
-	color: map.get($accordion-styles, textColor);
+	color: var(--accordion-text);
 	font-weight: 500;
 	font-size: 24px;
 	line-height: 27px;
@@ -67,7 +62,7 @@ $accordion-styles: map.get($accordion, $accordion-theme);
 		position: absolute;
 		top: 50%;
 		left: 50%;
-		background-color: map.get($accordion-styles, iconColor);
+		background-color: var(--accordion-icon);
 		border-radius: 2px;
 		transform: translate(-50%, -50%);
 		content: "";
@@ -101,14 +96,14 @@ $accordion-styles: map.get($accordion, $accordion-theme);
 		display: block;
 		width: 100%;
 		height: 2px;
-		background-color: map.get($accordion-styles, dividerColor);
+		background-color: var(--accordion-divider);
 		content: "";
 	}
 }
 
 .accordion__text {
 	margin-block: 32px;
-	color: map.get($accordion-styles, textColor);
+	color: var(--accordion-text);
 	font-weight: 400;
 	font-size: 18px;
 	line-height: 21px;

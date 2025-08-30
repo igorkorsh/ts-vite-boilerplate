@@ -1,121 +1,108 @@
 import { nanoid } from "nanoid"
 
-interface IAccordionOptions {
+interface AccordionOptions {
 	elementClass: string
 	triggerClass: string
 	panelClass: string
 	activeClass: string
-	collapsible: boolean
+	allowMultiple: boolean
 }
 
 export class Accordion {
-	root: HTMLElement | null = null
-	elements: NodeListOf<HTMLElement> | null = null
-	options: IAccordionOptions
+	private root: HTMLElement | null = null
+	private elements: NodeListOf<HTMLElement> | null = null
+	private options: AccordionOptions = {
+		elementClass: ".accordion__item",
+		triggerClass: ".accordion__header",
+		panelClass: ".accordion__panel",
+		activeClass: "open",
+		allowMultiple: false
+	}
 
-	constructor(selector: string, options?: Partial<IAccordionOptions>) {
-		const DEFAULT_OPTIONS: IAccordionOptions = {
-			elementClass: ".accordion__item",
-			triggerClass: ".accordion__header",
-			panelClass: ".accordion__panel",
-			activeClass: "open",
-			collapsible: true
+	constructor(selector: string, options?: Partial<AccordionOptions>) {
+		const element = document.querySelector<HTMLElement>(selector)
+
+		if (!element) {
+			console.error(`[accordion.ts] Элемент ${selector} не найден`)
+			return
 		}
 
-		this.root = document.querySelector(selector)
-		this.options = { ...DEFAULT_OPTIONS, ...options }
-
-		if (!this.root) return
-
+		this.root = element
+		this.options = { ...this.options, ...options }
 		this.init()
 	}
 
 	private init() {
-		const { elementClass } = this.options
+		if (!this.root) return
 
-		this.elements = this.root!.querySelectorAll<HTMLElement>(elementClass)
+		this.elements = this.root.querySelectorAll<HTMLElement>(this.options.elementClass)
 
-		this.elements.forEach(element => {
-			this.setARIA(element)
+		this.elements.forEach((item) => {
+			this.setARIA(item)
 		})
 
 		this.attachEvents()
 	}
 
-	private setARIA(element: HTMLElement) {
-		const { triggerClass, panelClass } = this.options
+	private setARIA(item: HTMLElement) {
+		const trigger = item.querySelector<HTMLElement>(this.options.triggerClass)
+		const panel = item.querySelector<HTMLElement>(this.options.panelClass)
 
-		const trigger = element.querySelector<HTMLElement>(triggerClass)
-		const panel = element.querySelector<HTMLElement>(panelClass)
+		if (!trigger || !panel) return
 
-		if (trigger && panel) {
-			trigger.setAttribute("id", nanoid(8))
-			panel.setAttribute("id", nanoid(8))
+		trigger.setAttribute("id", nanoid(8))
+		panel.setAttribute("id", nanoid(8))
 
-			trigger.setAttribute("aria-controls", panel.id)
-			trigger.setAttribute("aria-expanded", "false")
+		trigger.setAttribute("aria-controls", panel.id)
+		panel.setAttribute("aria-labelledby", trigger.id)
 
-			panel.setAttribute("role", "region")
-			panel.setAttribute("aria-labelledby", trigger.id)
-		}
+		const isActive = item.classList.contains(this.options.activeClass)
+		trigger.setAttribute("aria-expanded", `${isActive}`)
 	}
 
 	private show(element: HTMLElement) {
-		const { triggerClass, activeClass } = this.options
-		const trigger = element.querySelector<HTMLElement>(triggerClass)
-
-		element.classList.add(activeClass)
+		const trigger = element.querySelector<HTMLElement>(this.options.triggerClass)
+		element.classList.add(this.options.activeClass)
 		trigger?.setAttribute("aria-expanded", "true")
 	}
 
-	private hide(element: HTMLElement) {
-		const { triggerClass, activeClass } = this.options
-		const trigger = element.querySelector<HTMLElement>(triggerClass)
-
-		element.classList.remove(activeClass)
+	private close(element: HTMLElement) {
+		const trigger = element.querySelector<HTMLElement>(this.options.triggerClass)
+		element.classList.remove(this.options.activeClass)
 		trigger?.setAttribute("aria-expanded", "false")
 	}
 
 	private toggle(element: HTMLElement) {
-		const { activeClass, collapsible } = this.options
-		const isActive = element.classList.contains(activeClass)
+		if (!this.elements) return
 
-		if (collapsible) {
-			this.closeAll()
+		const isActive = element.classList.contains(this.options.activeClass)
+
+		if (!this.options.allowMultiple && !isActive) {
+			this.elements.forEach((item) => {
+				if (item !== element) {
+					this.close(item)
+				}
+			})
 		}
 
-		return isActive ? this.hide(element) : this.show(element)
-	}
-
-	private closeAll() {
-		const { activeClass } = this.options
-
-		this.elements?.forEach(element => {
-			const isActive = element.classList.contains(activeClass)
-
-			if (isActive) {
-				this.hide(element)
-			}
-		})
-	}
-
-	private handleClick(event: MouseEvent) {
-		const { panelClass } = this.options
-		const targetEl = event.currentTarget as HTMLElement
-		const target = event.target as HTMLElement
-
-		this.elements?.forEach(element => {
-			if (target.closest(panelClass)) return
-
-			if (element.contains(targetEl)) {
-				this.toggle(targetEl)
-			}
-		})
+		return isActive ? this.close(element) : this.show(element)
 	}
 
 	private attachEvents() {
-		this.elements?.forEach(element => {
-			element.addEventListener("click", this.handleClick.bind(this))
+		this.elements?.forEach((item) => {
+			const trigger = item.querySelector<HTMLElement>(this.options.triggerClass)
+
+			trigger?.addEventListener("click", (event) => {
+				event.preventDefault()
+				this.toggle(item)
+			})
+
+			trigger?.addEventListener("keydown", (event: KeyboardEvent) => {
+				if (event.key === "Enter" || event.key === " ") {
+					event.preventDefault()
+					this.toggle(item)
+				}
+			})
 		})
 	}
 }

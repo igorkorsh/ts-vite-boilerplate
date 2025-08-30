@@ -1,5 +1,5 @@
-<div class="carousel" id="carousel">
-	<div class="carousel__viewport">
+<div class="carousel">
+	<div class="carousel__container">
 		<div class="carousel__wrapper">
 			<div class="carousel__slide">Slide 1</div>
 			<div class="carousel__slide">Slide 2</div>
@@ -8,14 +8,14 @@
 			<div class="carousel__slide">Slide 5</div>
 		</div>
 	</div>
-	<button class="carousel__button--prev" aria-label="Prev">
-		<svg width="32" height="32" aria-hidden="true">
-			<use href="#carousel-arrow"></use>
+	<button type="button" class="button carousel__button" data-prev>
+		<svg aria-hidden="true">
+			<use href="#carousel-arrow-64"></use>
 		</svg>
 	</button>
-	<button class="carousel__button--next" aria-label="Next">
-		<svg width="32" height="32" aria-hidden="true">
-			<use href="#carousel-arrow"></use>
+	<button type="button" class="button carousel__button" data-next>
+		<svg aria-hidden="true">
+			<use href="#carousel-arrow-64"></use>
 		</svg>
 	</button>
 	<div class="carousel__pagination"></div>

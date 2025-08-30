@@ -1,174 +1,49 @@
 <!DOCTYPE html>
 <html lang="en" dir="ltr">
 	<head>
-		<!-- Google Tag Manager -->
-		<script>
-			(function (w, d, s, l, i) {
-				w[l] = w[l] || [];
-				w[l].push({ "gtm.start": new Date().getTime(), event: "gtm.js" });
-				var f = d.getElementsByTagName(s)[0],
-					j = d.createElement(s),
-					dl = l != "dataLayer" ? "&l=" + l : "";
-				j.async = true;
-				j.src = "https://www.googletagmanager.com/gtm.js?id=" + i + dl;
-				f.parentNode.insertBefore(j, f);
-			})(window, document, "script", "dataLayer", "GTM-WZ7LJ3");
-		</script>
-		<!-- End Google Tag Manager -->
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
-		<link rel="stylesheet" href="styles/style.scss" />
 		<link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
 		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 		<link rel="shortcut icon" href="/favicon.ico" />
 		<link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
-		<meta name="apple-mobile-web-app-title" content="MyWebSite" />
-		<link rel="manifest" href="/site.webmanifest" />
-		<title></title>
+		<link rel="stylesheet" href="styles/style.scss" />
+		<title>Vite + TS</title>
 	</head>
-	<body style="margin: 0">
-		<!-- Google Tag Manager (noscript) -->
-		<noscript>
-			<iframe
-				src="https://www.googletagmanager.com/ns.html?id=GTM-WZ7LJ3"
-				height="0"
-				width="0"
-				style="display: none; visibility: hidden"></iframe>
-		</noscript>
-		<!-- End Google Tag Manager (noscript) -->
-
+	<body>
 		<!-- svg-sprite -->
 
-		<div class="body">
+		<header class="header">
 			<nav class="nav">
 				<div class="container nav__container">
-					<button type="button" class="button nav__toggler"></button>
-					<a href="https://www.kaspersky.com" target="_blank" class="nav__logo">
+					<button type="button" class="button nav__button" aria-expanded="false">
+						<span aria-hidden="true"></span>
+						<span aria-hidden="true"></span>
+						<span aria-hidden="true"></span>
+					</button>
+					<a href="https://www.kaspersky.com" target="_blank" class="nav__logo" aria-label="Kaspersky">
 						<svg aria-hidden="true">
-							<use href="#logo"></use>
+							<use href="#logo" />
 						</svg>
 					</a>
 					<ul role="menu" class="nav__menu">
 						<li><a href="#" role="menuitem" class="nav__menu-link" data-om-cta="Menu item #1">Menu item #1</a></li>
 						<li><a href="#" role="menuitem" class="nav__menu-link" data-om-cta="Menu item #2">Menu item #2</a></li>
 						<li><a href="#" role="menuitem" class="nav__menu-link" data-om-cta="Menu item #3">Menu item #3</a></li>
-						<li><a href="#" role="menuitem" class="nav__menu-accent" data-om-cta="Accent item">Accent item</a></li>
-						<li>
-							<a href="#" target="_blank" class="button nav__menu-button" data-om-cta="Button name">Button name</a>
-						</li>
+						<li><a href="#" role="menuitem" class="button nav__menu-button" data-om-cta="Button text">Button text</a></li>
 					</ul>
-					<div class="lang">
-						<button type="button" class="button lang__button"></button>
-						<ul class="lang__menu"></ul>
-					</div>
 				</div>
 			</nav>
+		</header>
 
-			<div class="main">
-				<section></section>
-				<section></section>
-				<section></section>
-			</div>
+		<main>
+			<section></section>
+			<section></section>
+			<section></section>
+		</main>
 
-			<footer class="footer">
-				<div class="container footer__container">
-					<a href="https://www.kaspersky.com" target="_blank" class="footer__logo">
-						<svg aria-hidden="true">
-							<use href="#logo"></use>
-						</svg>
-					</a>
-					<ul class="footer__social">
-						<li>
-							<a
-								href="https://www.facebook.com/Kaspersky"
-								target="_blank"
-								rel="noopener noreferrer"
-								class="footer__social-icon"
-								aria-label="Facebook">
-								<svg width="24" height="24" aria-hidden="true">
-									<use href="#facebook"></use>
-								</svg>
-							</a>
-						</li>
-						<li>
-							<a
-								href="https://instagram.com/kasperskylab"
-								target="_blank"
-								rel="noopener noreferrer"
-								class="footer__social-icon"
-								aria-label="Instagram">
-								<svg width="24" height="24" aria-hidden="true">
-									<use href="#instagram"></use>
-								</svg>
-							</a>
-						</li>
-						<li>
-							<a
-								href="https://linkedin.com/company/kaspersky/"
-								target="_blank"
-								rel="noopener noreferrer"
-								class="footer__social-icon"
-								aria-label="Linkedin">
-								<svg width="24" height="24" aria-hidden="true">
-									<use href="#linkedin"></use>
-								</svg>
-							</a>
-						</li>
-						<li>
-							<a
-								href="https://twitter.com/kaspersky"
-								target="_blank"
-								rel="noopener noreferrer"
-								class="footer__social-icon"
-								aria-label="X (Twitter)">
-								<svg width="24" height="24" aria-hidden="true">
-									<use href="#twitter"></use>
-								</svg>
-							</a>
-						</li>
-						<li>
-							<a
-								href="https://youtube.com/Kaspersky"
-								target="_blank"
-								rel="noopener noreferrer"
-								class="footer__social-icon"
-								aria-label="YouTube">
-								<svg width="24" height="24" aria-hidden="true">
-									<use href="#youtube"></use>
-								</svg>
-							</a>
-						</li>
-					</ul>
-					<ul class="footer__text">
-						<li>
-							&copy;
-							<span id="year"></span>
-							AO Kaspersky. All Rights Reserved.
-						</li>
-						<li>
-							<a href="https://www.kaspersky.com/web-privacy-policy" target="_blank" class="footer__link">
-								Privacy Policy
-							</a>
-						</li>
-						<li><a href="https://www.kaspersky.com/about/contact" target="_blank" class="footer__link">Contacts</a></li>
-					</ul>
-				</div>
-			</footer>
-
-			<section class="cookie">
-				<div class="container cookie__container">
-					<p class="cookie__text">
-						We use cookies to make your experience of our websites better. By using and further navigating this website
-						you accept this. Detailed information about the use of cookies on this website is available by clicking on
-						<a href="https://www.kaspersky.com/third-party-tracking" target="_blank" class="cookie__link">
-							more information
-						</a>
-						.
-					</p>
-					<button type="button" class="button cookie__button">Accept and close</button>
-				</div>
-			</section>
-		</div>
+		<!-- include: partials/footer_en.html -->
+		<!-- include: partials/cookie_en.html -->
 
 		<script type="module" src="scripts/index.ts"></script>
 	</body>

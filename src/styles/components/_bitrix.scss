@@ -1,218 +1,241 @@
-@use "sass:map";
-@use "../base/colors" as *;
-@use "../base/mixins" as *;
-@use "global";
+@use "../base/variables" as *;
 
-$bitrix: (
-	"white": (
-		bgColor: $white,
-		inputColor: $black,
-		placeholderColor: $gray-500,
-		borderColor: $gray-700,
-		borderHoverColor: $gray-600,
-		borderFocusColor: $green-300,
-		errorColor: $red-600,
-		textColor: $gray-500,
-		linkColor: $green-600,
-		linkHoverColor: $green-300
-	),
-	"ghost-black": (
-		bgColor: transparent,
-		inputColor: $black,
-		placeholderColor: $gray-500,
-		borderColor: $black,
-		borderHoverColor: $gray-500,
-		borderFocusColor: $black,
-		errorColor: $red-600,
-		textColor: $gray-400,
-		linkColor: $black,
-		linkHoverColor: $gray-300
-	),
-	"ghost-white": (
-		bgColor: transparent,
-		inputColor: $white,
-		placeholderColor: $white-60,
-		borderColor: $white,
-		borderHoverColor: $white-60,
-		borderFocusColor: $green-300,
-		errorColor: $red-600,
-		textColor: $white-60,
-		linkColor: $green-300,
-		linkHoverColor: $green-200
-	)
-);
+// Dark
+$form-field: $white;
+$form-field-hover: $white-60;
+$form-field-focus: $green-300;
+$form-alert: $red-600;
+$form-dropdown: $gray-300;
+$form-dropdown-hover: $gray-500;
+$form-hint-text: $green-300;
+$form-agreement-text: $white-80;
+$form-agreement-link: $green-300;
+$form-agreement-link-hover: $green-200;
 
-$bitrix-theme: "ghost-white" !default;
-$bitrix-styles: map.get($bitrix, $bitrix-theme);
-
-.b24-form * {
-	font-family: "Kaspersky Sans Display", sans-serif !important;
-
-	@each $key, $value in global.$fonts {
-		[lang="#{$key}"] & {
-			font-family: #{$value}, "Noto Sans", sans-serif !important;
-		}
+.b24-form {
+	* {
+		font-family: "Kaspersky Sans Display", sans-serif !important;
 	}
-}
 
-// Устанавливает максимальную ширину обертки
-.b24-form-wrapper {
-	max-width: 100% !important;
-	background-color: transparent !important;
+	&-wrapper {
+		max-width: 100% !important;
+		background-color: transparent !important;
+	}
 
-	// Убирает тень у обертки формы
-	&.b24-form-shadow {
+	&-shadow {
 		box-shadow: none !important;
 	}
-}
 
-// Убирает отступ между заголовком и формой
-.b24-form-header-padding {
-	padding: 0 !important;
-}
+	&-field {
+		position: relative !important;
+		margin-bottom: 16px !important;
 
-.b24-form-content,
-.b24-form-padding-side {
-	padding: 0 !important;
-}
+		&:has(.b24-form-control-comment) {
+			margin-bottom: 32px !important;
+		}
+	}
 
-.b24-form-field {
-	margin-bottom: 16px !important;
-}
+	&-field-radio {
+		padding: 0 !important;
 
-.b24-form-control-container {
-	margin-bottom: 0 !important;
+		.b24-form-control-container {
+			display: flex;
+			flex-direction: column;
+		}
 
-	&:has([type="checkbox"]) {
-		display: flex;
-		column-gap: 12px;
+		.b24-form-control {
+			min-height: auto !important;
+			margin: 0 !important;
+			padding: 8px 0 !important;
+			background-color: transparent !important;
+			border: none !important;
+			cursor: pointer !important;
+		}
 
-		// Скрывает сообщение об обязательном поле у чекбокса
-		& .b24-form-control-alert-message {
+		input[type="radio"] {
+			margin-right: 12px !important;
+		}
+	}
+
+	&-header-padding,
+	&-padding-side {
+		padding: 0 !important;
+	}
+
+	&-control-container {
+		margin-bottom: 0 !important;
+	}
+
+	// Поле ввода
+	&-control {
+		&:not(label) {
+			height: 48px !important;
+			background-color: transparent !important;
+			border-color: $form-field !important;
+			border-radius: 8px !important;
+
+			&:hover {
+				border-color: $form-field-hover !important;
+			}
+
+			&:focus {
+				border: 2px solid $form-field-focus !important;
+			}
+		}
+	}
+
+	&-control-label {
+		font-size: 14px !important;
+		line-height: 18px !important;
+		opacity: 1 !important;
+
+		&:not(span) {
+			color: $white-60 !important;
+		}
+	}
+
+	&-control-required {
+		color: $form-alert !important;
+	}
+
+	&-control-alert {
+		&:not(.b24-form-field-agreement) {
+			margin-bottom: 32px !important;
+		}
+
+		.b24-form-control {
+			border-color: $form-alert !important;
+		}
+	}
+
+	&-control-alert-message {
+		left: 0 !important;
+		padding: 2px 0 0 !important;
+		color: $form-alert !important;
+		font-weight: 400 !important;
+		font-size: 12px !important;
+		line-height: 14px !important;
+		background-color: transparent !important;
+		border-radius: 0 !important;
+
+		&:before,
+		&:after {
+			content: none !important;
+		}
+	}
+
+	&-icon-remove {
+		display: none !important;
+	}
+
+	// Выпадающий список
+	&-dropdown-container {
+		background-color: $form-dropdown !important;
+		border-radius: 8px !important;
+		box-shadow: $shadow-dark !important;
+	}
+
+	&-dropdown-header {
+		border-bottom: none !important;
+	}
+
+	&-control-list-selector-item {
+		height: 40px !important;
+		padding: 12px 8px !important;
+		background-color: $form-dropdown !important;
+		border-bottom: none !important;
+
+		&:hover {
+			background-color: $form-dropdown-hover !important;
+			opacity: 1 !important;
+		}
+
+		&-title {
+			font: inherit !important;
+			font-size: 14px !important;
+			line-height: 16px !important;
+		}
+	}
+
+	// Текст подсказки
+	&-control-comment {
+		position: absolute;
+		color: $form-hint-text !important;
+		font-size: 12px !important;
+		line-height: 14px !important;
+		inset-block-end: -16px !important;
+		inset-inline-end: 0;
+	}
+
+	// Согласие на обработку персональных данных
+	&-field-agreement {
+		padding-block: 8px;
+
+		.b24-form-control-container {
+			display: grid;
+			grid-template-columns: 24px 1fr;
+			column-gap: 12px;
+		}
+
+		.b24-form-control-desc {
+			color: $form-agreement-text;
+			font-weight: 400;
+			font-size: 14px !important;
+			line-height: 18px !important;
+			opacity: 1 !important;
+		}
+
+		.b24-form-field-agreement-link {
+			color: $form-agreement-link !important;
+			font-weight: 600;
+			font-size: 14px !important;
+			line-height: 18px !important;
+			transition: color 0.3s ease;
+
+			&:hover {
+				color: $form-agreement-link-hover !important;
+			}
+		}
+
+		.b24-form-control-required,
+		.b24-form-control-alert-message {
 			display: none !important;
 		}
 	}
-}
 
-.b24-form-control-label {
-	color: map.get($bitrix-styles, placeholderColor) !important;
-}
-
-.b24-form-control {
-	color: map.get($bitrix-styles, inputColor) !important;
-	background-color: map.get($bitrix-styles, bgColor) !important;
-	border: 1px solid !important;
-	border-color: map.get($bitrix-styles, borderColor) !important;
-	border-radius: 8px !important;
-	outline-offset: -2px;
-
-	&:hover {
-		border-color: map.get($bitrix-styles, borderHoverColor) !important;
+	// Кнопка
+	&-btn-container {
+		margin: 0 !important;
 	}
 
-	&:focus {
-		border-color: map.get($bitrix-styles, borderFocusColor) !important;
-		outline: 1px solid map.get($bitrix-styles, borderFocusColor);
-	}
-}
-
-// Не уведичивает отступ снизу у обязательного чекбокса в форме
-.b24-form-control-agreement.b24-form-control-alert {
-	margin-bottom: 16px !important;
-}
-
-.b24-form-control-desc,
-.b24-form-field-agreement,
-.b24-form-field-agreement-link {
-	margin-top: 3px;
-	color: map.get($bitrix-styles, textColor) !important;
-	font-weight: 400;
-	font-size: 14px !important;
-	line-height: 16px !important;
-	opacity: 1 !important;
-}
-
-.b24-form-field-agreement-link {
-	color: map.get($bitrix-styles, linkColor) !important;
-	transition: 0.2s ease;
-	transition-property: color;
-
-	&:hover {
-		color: map.get($bitrix-styles, linkHoverColor) !important;
-	}
-}
-
-.b24-form-control-required {
-	color: $red-600;
-	font-size: 16px;
-	line-height: 20px;
-}
-
-.b24-form-btn-container {
-	margin: 0 !important;
-}
-
-.b24-form-btn-block {
-	padding: 0 !important;
-}
-
-.b24-form-btn {
-	display: inline-flex !important;
-	align-items: center;
-	justify-content: center;
-	width: auto !important;
-	text-align: center;
-	text-decoration: none;
-	background-color: transparent;
-	border: none;
-	box-shadow: none !important;
-
-	@include for-phone-only {
-		width: 100% !important;
-	}
-}
-
-.b24-form-btn {
-	min-height: 48px !important;
-	padding: 14px 24px !important;
-	font-weight: 600 !important;
-	font-size: 16px !important;
-	line-height: 20px !important;
-	border-radius: 8px !important;
-}
-
-.b24-form-btn {
-	color: $white !important;
-	background-color: $green-600 !important;
-	transition: 0.2s ease;
-	transition-property: background-color;
-
-	&:hover,
-	&:focus {
-		background-color: $green-300 !important;
+	&-btn-block {
+		padding: 0 !important;
 	}
 
-	&:active {
-		background-color: $interface-green-hover !important;
+	&-btn {
+		min-height: 48px !important;
+		font-weight: 600 !important;
+		font-size: 16px !important;
+		line-height: 20px !important;
+		background-color: $green-600 !important;
+		border-radius: 8px !important;
+
+		&:hover {
+			background-color: $green-300 !important;
+		}
+
+		&:active {
+			background-color: $interface-green-hover !important;
+		}
+
+		@media (width >= $bp-tablet) {
+			width: auto !important;
+		}
 	}
-}
 
-.b24-form-recaptcha {
-	justify-content: flex-start !important;
-	margin: 16px 0 0 !important;
-}
-
-.b24-form-control-alert-message {
-	left: 0 !important;
-	margin-top: 2px !important;
-	padding: 0 !important;
-	color: map.get($bitrix-styles, errorColor) !important;
-	font-size: 12px !important;
-	line-height: 14px !important;
-	background-color: transparent !important;
-
-	&::before,
-	&::after {
-		content: none !important;
+	// Капча
+	&-recaptcha {
+		display: none !important; // Скрываем капчу
+		margin: 0 !important;
 	}
 }

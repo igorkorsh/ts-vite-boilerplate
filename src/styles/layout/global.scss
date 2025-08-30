@@ -1,5 +1,4 @@
-@use "../base/colors" as *;
-@use "../base/mixins" as *;
+@use "../base/variables" as *;
 
 $fonts: (
 	// ar: "Noto Kufi Arabic",
@@ -8,20 +7,21 @@ $fonts: (
 	// ko: "Noto Sans KR",
 	// th: "Noto Sans Thai",
 	// zh-Hans: "Noto Sans SC",
-	// zh-Hant: "Noto Sans TC",
+	// zh-Hant: "Noto Sans TC"
 );
 
-.body {
+body {
 	display: grid;
-	grid-template-rows: auto 1fr auto;
-	min-width: 360px;
+	grid-template-rows: 1fr auto;
+	min-width: 375px;
+	height: 100dvh;
 	color: $white;
 	font-family: "Kaspersky Sans Display", sans-serif;
 	background-color: $gray-100;
 
-	@each $key, $value in $fonts {
-		[lang="#{$key}"] & {
-			font-family: #{$value}, "Noto Sans", sans-serif;
+	@each $code, $name in $fonts {
+		[lang="#{$code}"] & {
+			font-family: #{$name}, "Noto Sans", sans-serif;
 		}
 	}
 }
@@ -32,7 +32,18 @@ $fonts: (
 	margin-inline: auto;
 	padding-inline: 16px;
 
-	@include for-tablet-up {
+	@media (width >= $bp-tablet) {
 		padding-inline: 32px;
 	}
+}
+
+.sr-only {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	border: 0;
+	clip: rect(0 0 0 0);
 }

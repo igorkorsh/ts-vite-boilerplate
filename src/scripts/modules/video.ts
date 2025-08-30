@@ -1,252 +1,188 @@
-import { getScript } from "./utils"
-
-declare global {
-	interface Window {
-		onYouTubeIframeAPIReady: () => void
-	}
-}
-
-interface IVideoState {
-	currentUrl: string
-	previousUrl?: string
-}
-
 enum Platform {
-	YouTube,
-	Rutube,
-	Unknown
+	YOUTUBE,
+	RUTUBE,
+	VK,
+	UNKNOWN
 }
 
 export class VideoPlayer {
-	private video: IVideoState
-	private element: HTMLElement
-	private player: YT.Player | HTMLVideoElement | HTMLIFrameElement | null = null
-	private platform: Platform = Platform.Unknown
-	private time: number = 0
+	private url: string
+	private platform: Platform
+	private root: HTMLElement
+	private player: YT.Player | HTMLIFrameElement | HTMLVideoElement | null = null
 
-	private constructor(url: string) {
-		this.video = { currentUrl: url }
-		this.element = document.getElementById("player") as HTMLElement
-		this.platform = this.getPlatform(url)
+	constructor(url: string) {
+		this.url = url
+		this.root = document.getElementById("player")!
+		this.platform = this.getPlatform()
+		this.init()
 	}
 
-	/**
-	 * Асинхронно создает новый экземпляр класса.
-	 */
-	static async create(url: string): Promise<VideoPlayer> {
-		const { hostname } = new URL(url)
-		if (hostname.match(/(www\.)?youtube.com|youtu.be/)) {
-			await this.loadApi()
+	private getPlatform(): Platform {
+		const { hostname } = new URL(this.url)
+
+		if (hostname.match(/youtu\.?be(\.com)?/)) return Platform.YOUTUBE
+		if (hostname.match(/rutube\.ru/)) return Platform.RUTUBE
+		if (hostname.match(/vk(video)?\.(com|ru)/)) return Platform.VK
+
+		return Platform.UNKNOWN
+	}
+
+	private getVideoId(): string {
+		const { pathname, searchParams } = new URL(this.url)
+
+		if (pathname.includes("/watch")) {
+			return searchParams.get("v") || ""
 		}
 
-		return new VideoPlayer(url)
+		return pathname.split("/").pop() || ""
 	}
 
-	private static async loadApi() {
+	private async init() {
+		const videoId = this.getVideoId()
+
+		switch (this.platform) {
+			case Platform.YOUTUBE:
+				this.createYouTubePlayer(videoId)
+				break
+			case Platform.RUTUBE:
+				this.createRutubePlayer(videoId)
+				break
+			case Platform.VK:
+				await this.createVKPlayer()
+				break
+			default:
+				this.createHTML5Player()
+				break
+		}
+	}
+
+	private async getScript(url: string): Promise<void> {
+		return new Promise((resolve, reject) => {
+			const script = document.createElement("script")
+			script.src = url
+			script.onload = () => resolve()
+			script.onerror = () => reject(new Error(`Ошибка при загрузке скрипта ${url}`))
+			document.head.appendChild(script)
+		})
+	}
+
+	// YOUTUBE
+	private createYouTubePlayer(videoId: string) {
+		function playerInstance(videoId: string) {
+			return new YT.Player("player", {
+				width: 800,
+				height: 450,
+				videoId
+			})
+		}
+
 		if (!window.YT) {
-			await getScript("https://www.youtube.com/iframe_api")
-		}
+			this.getScript("https://www.youtube.com/iframe_api")
 
-		return new Promise<void>(resolve => {
-			window.onYouTubeIframeAPIReady = () => resolve()
-		})
-	}
-
-	/**
-	 * Воспроизводит видео
-	 */
-	public play(url: string) {
-		const _platform = this.getPlatform(url)
-
-		if (this.platform !== _platform) {
-			this.disposePlayer()
-			this.video = { currentUrl: url }
-			this.platform = _platform
-		}
-
-		switch (this.platform) {
-			case Platform.YouTube:
-				const videoId = this.getVideoId(url)
-
-				if (!this.player) {
-					this.initYTPlayer(videoId)
-				} else if (this.player instanceof YT.Player) {
-					if (url !== this.video.previousUrl) {
-						this.time = 0
-						this.video.previousUrl = url
-					}
-
-					if (videoId) {
-						this.player.loadVideoById(videoId, this.time)
-					}
-				}
-
-				break
-			case Platform.Rutube:
-				if (!this.player) {
-					this.initRutubePlayer(this.video.currentUrl.replace("video", "play/embed"))
-				} else if (this.player instanceof HTMLIFrameElement) {
-					this.player.contentWindow?.postMessage(
-						JSON.stringify({
-							type: "player:play",
-							data: {}
-						}),
-						"*"
-					)
-				}
-
-				break
-			case Platform.Unknown:
-				if (!this.player) {
-					this.initVideoPlayer(this.video.currentUrl)
-				} else if (this.player instanceof HTMLVideoElement) {
-					this.player.currentTime = this.time
-					this.player.play()
-				}
-
-				break
+			// @ts-ignore
+			window.onYouTubeIframeAPIReady = () => {
+				this.player = playerInstance(videoId)
+			}
+		} else {
+			this.player = playerInstance(videoId)
 		}
 	}
 
-	/**
-	 * Приостанавливает видео и сохраняет текущее время воспроизведения
-	 */
+	private getIframe(): HTMLIFrameElement {
+		const iframe = document.createElement("iframe")
+		iframe.width = "800"
+		iframe.height = "450"
+		iframe.frameBorder = "0"
+		iframe.allowFullscreen
+		return iframe
+	}
+
+	// RUTUBE
+	private createRutubePlayer(videoId: string) {
+		const iframe = this.getIframe()
+		iframe.src = `https://rutube.ru/play/embed/${videoId}`
+		iframe.allow = "clipboard-write; autoplay"
+		this.root.innerHTML = ""
+		this.root.appendChild(iframe)
+		this.player = iframe
+	}
+
+	// VK
+	private async createVKPlayer() {
+		// @ts-ignore
+		if (!window.VK) {
+			await this.getScript("https://vk.com/js/api/videoplayer.js")
+		}
+
+		const iframe = this.getIframe()
+		const [_, video] = this.url.split("-")
+		const [oid, id] = video.split("_")
+		iframe.src = `https://vkvideo.ru/video_ext.php?oid=-${oid}&id=${id}&hd=2&js_api=1`
+		iframe.allow = "autoplay; encrypted-media; fullscreen; picture-in-picture; screen-wake-lock;"
+
+		this.root.innerHTML = ""
+		this.root.appendChild(iframe)
+		// @ts-ignore
+		this.player = VK.VideoPlayer(iframe)
+	}
+
+	// HTML5
+	private createHTML5Player() {
+		const video = document.createElement("video")
+		video.src = this.url
+		video.width = 800
+		video.height = 450
+		video.controls = true
+		this.root.innerHTML = ""
+		this.root.appendChild(video)
+		this.player = video
+	}
+
+	public play() {
+		if (window.YT && this.player instanceof YT.Player) {
+			this.player.playVideo()
+		} else if (this.player instanceof HTMLIFrameElement) {
+			this.player.contentWindow?.postMessage(
+				JSON.stringify({
+					type: "player:play",
+					data: {}
+				})
+			)
+		} else {
+			// @ts-ignore
+			this.player?.play()
+		}
+	}
+
 	public pause() {
-		if (!this.player) return
-
-		switch (this.platform) {
-			case Platform.YouTube:
-				if (this.player instanceof YT.Player) {
-					this.player.pauseVideo()
-					this.time = this.player.getCurrentTime()
-				}
-
-				break
-			case Platform.Rutube:
-				if (this.player instanceof HTMLIFrameElement) {
-					this.player.contentWindow?.postMessage(
-						JSON.stringify({
-							type: "player:pause",
-							data: {}
-						}),
-						"*"
-					)
-				}
-
-				break
-			case Platform.Unknown:
-				if (this.player instanceof HTMLVideoElement) {
-					this.player.pause()
-					this.time = this.player.currentTime
-					this.video.previousUrl = this.video.currentUrl
-				}
-
-				break
+		if (window.YT && this.player instanceof YT.Player) {
+			this.player.pauseVideo()
+		} else if (this.player instanceof HTMLIFrameElement) {
+			this.player.contentWindow?.postMessage(
+				JSON.stringify({
+					type: "player:pause",
+					data: {}
+				})
+			)
+		} else {
+			// @ts-ignore
+			this.player?.pause()
 		}
 	}
 
-	/**
-	 * Определяет видеоплатформу по URL.
-	 */
-	private getPlatform(url: string) {
-		const { hostname } = new URL(url)
-
-		if (hostname.match(/(www\.)?youtube.com|youtu.be/)) {
-			return Platform.YouTube
-		}
-
-		if (hostname.match(/(www\.)?rutube.ru/)) {
-			return Platform.Rutube
-		}
-
-		return Platform.Unknown
-	}
-
-	/**
-	 * Извлекает идентификатор видео из URL
-	 */
-	private getVideoId(url: string): string | undefined {
-		try {
-			const { pathname, searchParams } = new URL(url)
-
-			// youtube.com/embed/{VIDEO_ID}
-			if (pathname.startsWith("/embed/")) {
-				return pathname.split("/embed/")[1]
-			}
-
-			// youtube.com/watch?v={VIDEO_ID}
-			if (pathname.startsWith("/watch")) {
-				return searchParams.get("v") || undefined
-			}
-
-			// youtu.be/{VIDEO_ID}
-			if (pathname.startsWith("/")) {
-				return pathname.split("/")[1]
-			}
-		} catch (error) {
-			throw new Error(`Не удалось извлечь идентификатор видео из URL: ${url}. Возможно URL имеет некорректный формат`)
-		}
-	}
-
-	/**
-	 * Инициализирует плеер YouTube
-	 */
-	private initYTPlayer(videoId: string | undefined) {
-		this.player = new YT.Player(this.element, {
-			width: 800,
-			height: 450,
-			videoId,
-			playerVars: {
-				playsinline: 1
-			},
-			events: {
-				onReady: (event: YT.PlayerEvent) => {
-					return event.target.playVideo()
-				}
-			}
-		})
-	}
-
-	/**
-	 * Инициализует стандартный HTML5-плеер
-	 */
-	private initVideoPlayer(url: string) {
-		this.player = document.createElement("video")
-		this.player.src = url
-		this.player.width = 800
-		this.player.height = 450
-		this.player.controls = true
-		this.player.playsInline = true
-		this.element.replaceWith(this.player)
-		this.player.play()
-	}
-
-	/**
-	 * Инициализует плеер Rutube
-	 */
-	private initRutubePlayer(url: string) {
-		this.player = document.createElement("iframe")
-		this.player.id = "rutube"
-		this.player.src = url
-		this.player.width = "800"
-		this.player.height = "450"
-		this.player.allow = "clipboard-write; autoplay"
-		this.player.allowFullscreen = true
-		this.element.replaceWith(this.player)
-	}
-
-	/**
-	 * Удаляет плеер
-	 */
-	private disposePlayer() {
-		if (!this.player) return
-
-		if (this.player instanceof YT.Player) {
+	public destroy() {
+		if (window.YT && this.player instanceof YT.Player) {
 			this.player.destroy()
-		}
+		} else if (this.player instanceof HTMLIFrameElement) {
+			this.player.contentWindow?.postMessage(
+				JSON.stringify({
+					type: "player:remove",
+					data: {}
+				})
+			)
 
-		if (this.player instanceof HTMLVideoElement || this.player instanceof HTMLIFrameElement) {
-			this.player.replaceWith(this.element)
+			this.player.remove()
 		}
 
 		this.player = null

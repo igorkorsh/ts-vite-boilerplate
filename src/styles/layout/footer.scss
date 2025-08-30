@@ -1,131 +1,114 @@
-@use "sass:map";
-@use "../base/colors" as *;
-@use "../base/mixins" as *;
+@use "../base/variables" as *;
 
-$footer: (
-	"light": (
-		bgColor: $white,
-		logoColor: $black,
-		iconColor: $gray-400,
-		iconHoverColor: $gray-500,
-		textColor: $gray-500,
-		linkColor: $green-600,
-		linkHoverColor: $green-300
-	),
-	"dark": (
-		bgColor: $gray-300,
-		logoColor: $white,
-		iconColor: $white,
-		iconHoverColor: $white-80,
-		textColor: $white-60,
-		linkColor: $green-300,
-		linkHoverColor: $green-200
-	)
-);
+// Light
+// $footer-bg: $white;
+// $footer-icon: $black;
+// $footer-icon-hover: $gray-500;
+// $footer-text: $gray-500;
+// $footer-link: $green-600;
+// $footer-link-hover: $green-300;
 
-$footer-theme: "dark";
-$footer-styles: map.get($footer, $footer-theme);
+// Dark
+$footer-bg: $gray-300;
+$footer-icon: $white;
+$footer-icon-hover: $white-80;
+$footer-text: $white-60;
+$footer-link: $green-300;
+$footer-link-hover: $green-200;
 
 .footer {
-	background-color: map.get($footer-styles, bgColor);
-}
+	background-color: $footer-bg;
 
-.footer__container {
-	display: grid;
-	grid-template-rows: 54px 1fr;
-	grid-template-columns: auto 1fr;
-	gap: 4px 20.18px;
-	padding-block: 6px 16px;
+	&__container {
+		display: grid;
+		grid-template-columns: auto 1fr;
+		gap: 4px 20.16px;
+		align-items: center;
+		padding-block: 8px 16px;
 
-	@include for-tablet-up {
-		padding-block: 8px 24px;
-		row-gap: 8px;
-	}
+		@media (width >= $bp-tablet) {
+			padding-block: 8px 24px;
+			row-gap: 8px;
+		}
 
-	@include for-desktop-up {
-		grid-template-rows: auto;
-		grid-template-columns: auto 1fr auto;
-		padding-block: 9px 7px;
-		column-gap: 0;
-	}
-}
-
-.footer__logo {
-	display: block;
-	width: 169.84px;
-	height: 54px;
-	margin-inline: -19px;
-	color: map.get($footer-styles, logoColor);
-
-	@include for-desktop-up {
-		width: 201.29px;
-		height: 64px;
-		margin-inline: -23px 0;
-	}
-}
-
-.footer__social {
-	display: flex;
-	flex-direction: row;
-	align-items: center;
-	justify-self: flex-end;
-	column-gap: 13px;
-
-	@include for-desktop-up {
-		order: 2;
-		column-gap: 12px;
-	}
-}
-
-.footer__social-icon {
-	display: block;
-	width: 24px;
-	height: 24px;
-	color: map.get($footer-styles, iconColor);
-	transition: color 0.2s ease;
-
-	&:hover {
-		color: map.get($footer-styles, iconHoverColor);
-	}
-}
-
-.footer__text {
-	display: flex;
-	flex-direction: row;
-	flex-wrap: wrap;
-	color: map.get($footer-styles, textColor);
-	font-weight: 400;
-	font-size: 12px;
-	line-height: 14px;
-	column-gap: 8px;
-
-	@include for-phone-and-tablet-only {
-		grid-column: span 2;
-	}
-
-	@include for-desktop-up {
-		align-self: flex-end;
-		margin-bottom: 21px;
-	}
-
-	li:not(:first-of-type) {
-		position: relative;
-
-		&::before {
-			padding-inline-end: 8px;
-			content: "•";
+		@media (width >= $bp-desktop) {
+			grid-template-columns: auto 1fr auto;
+			gap: 0px;
+			padding-block: 9px 7px;
 		}
 	}
-}
 
-.footer__link {
-	position: relative;
-	color: map.get($footer-styles, linkColor);
-	font-weight: 600;
-	text-decoration: underline;
-	transition: color 0.2s ease;
+	&__logo {
+		display: flex;
+		width: 169.84px;
+		height: 54px;
+		margin-inline-start: -19.6px;
+		color: $footer-icon;
 
-	&:hover {
-		color: map.get($footer-styles, linkHoverColor);
+		@media (width >= $bp-desktop) {
+			width: 201.29px;
+			height: 64px;
+			margin-inline-start: -23px;
+		}
+	}
+
+	&__social {
+		display: flex;
+		justify-self: end;
+		column-gap: 13px;
+
+		@media (width >= $bp-desktop) {
+			order: 2;
+			column-gap: 12px;
+		}
+	}
+
+	&__social-link {
+		display: inline-flex;
+		width: 24px;
+		height: 24px;
+		color: $footer-icon;
+		transition: color 0.3s ease;
+
+		&:hover {
+			color: $footer-icon-hover;
+		}
+	}
+
+	&__text {
+		display: flex;
+		flex-wrap: wrap;
+		color: $footer-text;
+		font-weight: 400;
+		font-size: 12px;
+		line-height: 14px;
+		column-gap: 8px;
+
+		li:not(:first-of-type) {
+			position: relative;
+
+			&::before {
+				padding-inline-end: 8px;
+				content: "•";
+			}
+		}
+
+		@media (width < $bp-desktop) {
+			grid-column: span 2;
+		}
+
+		@media (width >= $bp-desktop) {
+			margin-top: 8px;
+		}
+	}
+
+	&__link {
+		color: $footer-link;
+		font-weight: 600;
+		transition: color 0.3s ease;
+
+		&:hover {
+			color: $footer-link-hover;
+		}
 	}
 }

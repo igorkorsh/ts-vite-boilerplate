@@ -1,59 +1,35 @@
-import path from "path"
-import glob from "fast-glob"
-import { fileURLToPath } from "url"
-import { defineConfig, normalizePath } from "vite"
-import { SpritePlugin } from "./plugins/vite-plugin-svg-sprite"
-import { viteStaticCopy } from "vite-plugin-static-copy"
-import inliveSvg from "postcss-inline-svg"
-import sortMediaQueries from "postcss-sort-media-queries"
+import { defineConfig } from "vite"
+import { resolve } from "path"
+import { ViteImageOptimizer } from "vite-plugin-image-optimizer"
+import includeHtmlPlugin from "./plugins/vite-plugin-include-html"
+import spritePlugin from "./plugins/vite-plugin-svg-sprite"
+import buildPlugin from "./plugins/vite-plugin-build-fix"
+import gtmPlugin from "./plugins/vite-plugin-gtm"
+import wpPlugin from "./plugins/vite-plugin-wp"
 import rtlcss from "postcss-rtlcss"
-import autoprefixer from "autoprefixer"
 
 const isProd = process.env.NODE_ENV === "production"
+const isWordpress = process.argv.includes("--wp")
 
 export default defineConfig({
-	root: path.resolve(__dirname, "src"),
-	base: "./",
-	publicDir: path.resolve(__dirname, "public"),
+	root: "src",
+	base: "",
+	publicDir: resolve(__dirname, "public"),
 	plugins: [
-		SpritePlugin(path.resolve(__dirname, "src/sprite")),
+		includeHtmlPlugin(),
+		spritePlugin(),
+		buildPlugin(),
+		gtmPlugin("GTM-WZ7LJ3"),
 		isProd &&
-			viteStaticCopy({
-				targets: [
-					{
-						src: normalizePath(path.resolve(__dirname, "src/images/static/*")),
-						dest: normalizePath(path.resolve(__dirname, "build/images"))
-					}
-					// {
-					// 	src: normalizePath(path.resolve(__dirname, "src/assets/*")),
-					// 	dest: normalizePath(path.resolve(__dirname, "build/assets"))
-					// }
-				]
+			ViteImageOptimizer({
+				includePublic: false,
+				cache: true
 			}),
-		isProd && {
-			name: "",
-			transformIndexHtml(html) {
-				return html.replace(/type=\"module\" crossorigin/g, "defer").replace(/(rel=\"stylesheet\") crossorigin/g, "$1")
-			}
-		}
+		isWordpress && wpPlugin()
 	],
 	css: {
-		devSourcemap: isProd ? false : true,
-		preprocessorOptions: {
-			scss: {
-				api: "modern",
-				charset: false
-			}
-		},
 		postcss: {
-			plugins: [
-				inliveSvg(),
-				rtlcss(),
-				sortMediaQueries({
-					sort: "mobile-first"
-				}),
-				autoprefixer()
-			]
+			plugins: [rtlcss()]
 		}
 	},
 	server: {
@@ -62,38 +38,24 @@ export default defineConfig({
 	},
 	build: {
 		modulePreload: false,
-		outDir: path.resolve(__dirname, "build"),
+		outDir: resolve(__dirname, isWordpress ? "_wp" : "build"),
 		assetsInlineLimit: 0,
-		emptyOutDir: true,
 		rollupOptions: {
-			input: Object.fromEntries(
-				glob
-					.sync(["src/*.html"])
-					.map(file => [path.basename(file, ".html"), fileURLToPath(new URL(file, import.meta.url))])
-			),
 			output: {
-				entryFileNames() {
-					return "scripts/[name].js"
-				},
-				assetFileNames(assetInfo) {
-					if (assetInfo.names?.some(file => file.endsWith(".css"))) {
+				entryFileNames: "scripts/[name].js",
+				assetFileNames({ names }) {
+					if (/\.css$/.test(names[0])) {
 						return "styles/[name].css"
 					}
 
-					if (assetInfo.names?.some(file => /\.(eot|otf|ttf|woff2?)$/i.test(file))) {
-						return "fonts/[name].[ext]"
-					}
-
-					if (assetInfo.names?.some(file => /\.(gif|jpe?g|png|svg|webp)$/i.test(file))) {
+					if (/\.(png|jpe?g|webp|svg)$/.test(names[0])) {
 						return "images/[name].[ext]"
 					}
 
 					return "assets/[name].[ext]"
 				}
 			}
-		}
-	},
-	optimizeDeps: {
-		include: [path.resolve(__dirname, "src/*.html")]
+		},
+		emptyOutDir: true
 	}
 })
