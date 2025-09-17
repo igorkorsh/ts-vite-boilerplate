@@ -15,16 +15,17 @@ export default function wpPlugin(): Plugin {
 				source: `/**\n * Theme Name: ${env.VITE_THEME_NAME}\n */\n\n@charset "UTF-8";`
 			})
 
-			// Переименовываем index.html в index.php
 			if (bundle["index.html"]) {
+				if (bundle["index.html"].type === "asset") {
+					bundle["index.html"].source = (bundle["index.html"].source as any).replace(
+						/(src|srcset|href)="\.\//g,
+						'$1="<?php echo network_home_url(); ?>wp-content/themes/<?php echo get_template(); ?>/'
+					)
+				}
+
+				// Переименовываем index.html в index.php
 				bundle["index.html"].fileName = "index.php"
 			}
-		},
-		transformIndexHtml(html) {
-			return html.replace(
-				/(?<==")\.\//g,
-				"<?php echo network_home_url(); ?>wp-content/themes/<?php echo get_template(); ?>/"
-			)
 		}
 	}
 }
