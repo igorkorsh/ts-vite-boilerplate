@@ -1,0 +1,48 @@
+@use "../base/variables" as *;
+
+[data-scrollbar] {
+	display: grid;
+	overflow: hidden;
+
+	ul {
+		display: flex;
+		gap: 24px;
+		overflow: auto;
+		scroll-snap-type: x mandatory;
+
+		li {
+			flex: 0 0 calc(50% - 12px);
+			scroll-snap-align: start;
+		}
+
+		&::-webkit-scrollbar {
+			display: none;
+		}
+	}
+}
+
+.scrollbar {
+	margin-top: 24px;
+
+	&__track {
+		position: relative;
+		height: 4px;
+		background: $white-40;
+		border-radius: 4px;
+		cursor: pointer;
+	}
+
+	&__thumb {
+		position: absolute;
+		left: 0;
+		height: inherit;
+		background-color: $white;
+		border-radius: 4px;
+		cursor: grab;
+		touch-action: none;
+
+		&--grabbing {
+			cursor: grabbing;
+		}
+	}
+}

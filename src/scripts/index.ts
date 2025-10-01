@@ -5,6 +5,7 @@ import "./modules/modal"
 import "./modules/motion"
 import { Carousel } from "./modules/carousel"
 import { Accordion } from "./modules/accordion"
+import { Scrollbar } from "./modules/scrollbar"
 
 new Carousel(".carousel", {
 	loop: true,
@@ -13,4 +14,8 @@ new Carousel(".carousel", {
 
 new Accordion(".accordion", {
 	allowMultiple: true
+})
+
+document.querySelectorAll<HTMLElement>("[data-scrollbar]").forEach((element) => {
+	new Scrollbar(element)
 })
