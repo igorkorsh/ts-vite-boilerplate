@@ -1,21 +1,17 @@
 import "./modules/nav"
 import "./modules/footer"
 import "./modules/cookie"
-import "./modules/modal"
-import "./modules/motion"
-import { Carousel } from "./modules/carousel"
-import { Accordion } from "./modules/accordion"
-import { Scrollbar } from "./modules/scrollbar"
+// import "./modules/modal"
+// import "./modules/motion"
+// import "./modules/scrollbar"
+// import { Carousel } from "./modules/carousel"
+// import { Accordion } from "./modules/accordion"
 
-new Carousel(".carousel", {
-	loop: true,
-	align: "start"
-})
+// new Carousel(".carousel", {
+// 	loop: true,
+// 	align: "start"
+// })
 
-new Accordion(".accordion", {
-	allowMultiple: true
-})
-
-document.querySelectorAll<HTMLElement>("[data-scrollbar]").forEach((element) => {
-	new Scrollbar(element)
-})
+// new Accordion(".accordion", {
+// 	allowMultiple: true
+// })

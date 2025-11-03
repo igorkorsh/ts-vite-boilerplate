@@ -1,47 +1,70 @@
 @use "../base/variables" as *;
 
-[data-scrollbar] {
-	display: grid;
+.scrollbar {
+	position: relative;
 	overflow: hidden;
 
-	ul {
-		display: flex;
-		gap: 24px;
-		overflow: auto;
-		scroll-snap-type: x mandatory;
-
-		li {
-			flex: 0 0 calc(50% - 12px);
-			scroll-snap-align: start;
-		}
+	&__viewport {
+		width: 100%;
+		height: 100%;
+		overflow: scroll;
+		scrollbar-width: none;
 
 		&::-webkit-scrollbar {
 			display: none;
 		}
 	}
-}
 
-.scrollbar {
-	margin-top: 24px;
+	&__content {
+		padding-inline-end: 16px;
+
+		.horizontal & {
+			padding-inline-end: 0;
+			padding-block-end: 16px;
+			width: max-content;
+		}
+	}
 
 	&__track {
-		position: relative;
-		height: 4px;
-		background: $white-40;
-		border-radius: 4px;
-		cursor: pointer;
+		position: absolute;
+		width: 6px;
+		height: 100%;
+		background-color: rgba($white, 0.1);
+		border-radius: 3px;
+		opacity: 0;
+		transition: opacity 0.3s ease;
+		pointer-events: none;
+		inset-block-start: 0;
+		right: 0;
+
+		&[data-visible="true"] {
+			opacity: 1;
+		}
+
+		.horizontal & {
+			height: 6px;
+			width: 100%;
+			inset-block: auto 0;
+			right: auto;
+		}
 	}
 
 	&__thumb {
-		position: absolute;
-		left: 0;
-		height: inherit;
-		background-color: $white;
-		border-radius: 4px;
+		background-color: rgba($white, 0.2);
+		border-radius: 3px;
 		cursor: grab;
-		touch-action: none;
+		transition: background-color 0.3s ease;
+		pointer-events: all;
 
-		&--grabbing {
+		.horizontal & {
+			height: 100%;
+		}
+
+		&:hover {
+			background-color: rgba($white, 0.4);
+		}
+
+		&:active {
 			cursor: grabbing;
 		}
 	}
