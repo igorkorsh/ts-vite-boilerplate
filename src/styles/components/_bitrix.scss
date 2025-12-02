@@ -1,17 +1,5 @@
 @use "../base/variables" as *;
 
-// Dark
-// $form-field: $white;
-// $form-field-hover: $white-60;
-// $form-field-focus: $green-300;
-// $form-alert: $red-600;
-// $form-dropdown: $gray-300;
-// $form-dropdown-hover: $gray-500;
-// $form-hint-text: $green-300;
-// $form-agreement-text: $white-80;
-// $form-agreement-link: $green-300;
-// $form-agreement-link-hover: $green-200;
-
 // Light
 // $form-text: $gray-500;
 // $form-alert: $red-600;
@@ -25,18 +13,17 @@ $form-link: $green-300;
 $form-link-hover: $green-200;
 
 .b24-form {
-	* {
-		font-family: "Kaspersky Sans Display", sans-serif !important;
-	}
-
 	a {
-		font: inherit !important;
 		color: $form-link !important;
+		font: inherit !important;
 		transition: color 0.3s ease;
 
 		&:hover {
 			color: $form-link-hover !important;
 		}
+	}
+	* {
+		font-family: "Kaspersky Sans Display", sans-serif !important;
 	}
 
 	&-wrapper {
@@ -53,11 +40,12 @@ $form-link-hover: $green-200;
 		padding: 0 !important;
 	}
 
-	&-form-field {
+	&-field {
 		margin-bottom: 16px !important;
 	}
 
 	&-control-desc {
+		margin-top: 3px !important;
 		color: $form-text !important;
 		font-weight: 400 !important;
 		font-size: 14px !important;
@@ -73,16 +61,11 @@ $form-link-hover: $green-200;
 			grid-template-columns: auto 1fr;
 			column-gap: 12px;
 		}
-
-		span,
-		div {
-			grid-column: 2;
-		}
 	}
 
 	&-control-alert-message {
-		position: relative !important;
 		left: 0 !important;
+		margin-top: 2px !important;
 		padding: 0 !important;
 		color: $form-alert !important;
 		font-weight: 400 !important;
@@ -133,108 +116,8 @@ $form-link-hover: $green-200;
 		display: none !important;
 		margin: 0 !important;
 	}
+
+	&-icon-remove {
+		display: none !important;
+	}
 }
-
-// .b24-form {
-
-// 	&-field {
-// 		position: relative !important;
-// 		margin-bottom: 16px !important;
-
-// 		&:has(.b24-form-control-comment) {
-// 			margin-bottom: 32px !important;
-// 		}
-// 	}
-
-// 	&-field-radio {
-// 		padding: 0 !important;
-
-// 		.b24-form-control-container {
-// 			display: flex;
-// 			flex-direction: column;
-// 		}
-
-// 		.b24-form-control {
-// 			min-height: auto !important;
-// 			margin: 0 !important;
-// 			padding: 8px 0 !important;
-// 			background-color: transparent !important;
-// 			border: none !important;
-// 			cursor: pointer !important;
-// 		}
-
-// 		input[type="radio"] {
-// 			margin-right: 12px !important;
-// 		}
-// 	}
-
-// 	// Поле ввода
-// 	&-control {
-// 		&:not(label) {
-// 			height: 48px !important;
-// 			background-color: transparent !important;
-// 			border-color: $form-field !important;
-// 			border-radius: 8px !important;
-
-// 			&:hover {
-// 				border-color: $form-field-hover !important;
-// 			}
-
-// 			&:focus {
-// 				border: 2px solid $form-field-focus !important;
-// 			}
-// 		}
-// 	}
-
-// 	&-control-label {
-// 		font-size: 14px !important;
-// 		line-height: 18px !important;
-// 		opacity: 1 !important;
-
-// 		&:not(span) {
-// 			color: $white-60 !important;
-// 		}
-// 	}
-
-// 	&-icon-remove {
-// 		display: none !important;
-// 	}
-
-// 	// Выпадающий список
-// 	&-dropdown-container {
-// 		background-color: $form-dropdown !important;
-// 		border-radius: 8px !important;
-// 		box-shadow: $shadow-dark !important;
-// 	}
-
-// 	&-dropdown-header {
-// 		border-bottom: none !important;
-// 	}
-
-// 	&-control-list-selector-item {
-// 		height: 40px !important;
-// 		padding: 12px 8px !important;
-// 		background-color: $form-dropdown !important;
-// 		border-bottom: none !important;
-
-// 		&:hover {
-// 			background-color: $form-dropdown-hover !important;
-// 			opacity: 1 !important;
-// 		}
-
-// 		&-title {
-// 			font: inherit !important;
-// 			font-size: 14px !important;
-// 			line-height: 16px !important;
-// 		}
-// 	}
-
-// 	// Текст подсказки
-// 	&-control-comment {
-// 		position: absolute;
-// 		color: $form-hint-text !important;
-// 		font-size: 12px !important;
-// 		line-height: 14px !important;
-// 		inset-block-end: -16px !important;
-// 		inset-inline-end: 0;
-// 	}
